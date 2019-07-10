@@ -21,20 +21,6 @@ exports.read = (req, res) => {
     return res.json(req.art);
 }
 
-exports.remove = (req, res) => {
-    let art = req.art;
-    art.remove((err, deletedArt) => {
-        if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            });
-        }
-        res.json({
-            "message": 'Art has been deleted successfully!'
-        })
-    });
-}
-
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm() // form data is available here
     form.keepExtensions = true; // whatever images we are receiving, the extensions will be there
@@ -74,3 +60,17 @@ exports.create = (req, res) => {
         });
     });
 };
+
+exports.remove = (req, res) => {
+    let art = req.art;
+    art.remove((err, deletedArt) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            "message": 'Art has been deleted successfully!'
+        })
+    });
+}

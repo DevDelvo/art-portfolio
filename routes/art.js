@@ -8,8 +8,8 @@ const { userById } = require('../controllers/user');
 
 router.get('/art/:artId', read)
 // router.put('/art/:artId/:userId', update);
-router.delete('/art/:artId/:userId', remove);
-router.post("/art/create/:userId", requireSignin, isAuth, isAdmin, create);
+router.post('/art/create/:userId', requireSignin, isAuth, isAdmin, create);
+router.delete('/art/:artId/:userId', requireSignin, isAuth, isAdmin, remove);
 router.param('userId', userById)
 router.param('artId', artById)
 
