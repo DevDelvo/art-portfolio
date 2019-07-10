@@ -16,9 +16,23 @@ exports.artById = (req, res, next, id) => {
     });
 };
 
-exports.read = (req, res, next) => {
+exports.read = (req, res) => {
     req.art.photo = undefined;
     return res.json(req.art);
+}
+
+exports.remove = (req, res) => {
+    let art = req.art;
+    art.remove((err, deletedArt) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            "message": 'Art has been deleted successfully!'
+        })
+    });
 }
 
 exports.create = (req, res) => {
