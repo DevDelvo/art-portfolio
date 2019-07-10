@@ -8,7 +8,7 @@ exports.artById = (req, res, next, id) => {
     Art.findById(id).exec((err, art) => {
         if (err || !art) {
             return res.status(400).json({
-                error: "Product not found"
+                error: "Art not found"
             });
         }
         req.art = art;
@@ -115,4 +115,31 @@ exports.remove = (req, res) => {
             "message": 'Art has been deleted successfully!'
         })
     });
+}
+
+/**
+* sell / arrival
+* by sell = /arts?sortBy=sold&order=desc&limit=4
+* by arrival = /arts?sortBy=createdAt&order=desc&limit=4
+* if no params = then all products are returned
+*/
+
+exports.list = (req, res) => {
+    let order = req.query.order ? req.query.order : 'asc';
+    let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+    Art.find()
+        .select("-photo")
+        .populate('category') // because we've associated the art model with the category model
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, data) => {
+            if (err) {
+                return res.status(400).json({
+                    message: "Art not found."
+                });
+            }
+            res.send(data);
+        });
 }
