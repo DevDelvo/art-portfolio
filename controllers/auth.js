@@ -59,7 +59,6 @@ exports.requireSignin = expressJwt({
 
 exports.isAuth = (req, res, next) => {
     let user = req.profile && req.auth && req.profile._id == req.auth._id; //if the user matches the logged in user
-    console.log(user)
     if (!user) {
         console.log('hi');
         return res.status(403).json({ // 403 means unauthorized access
