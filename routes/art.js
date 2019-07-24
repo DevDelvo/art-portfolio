@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { create, artById, read, update, remove, list } = require('../controllers/art');
+const { create, artById, read, update, remove, list, artRelated } = require('../controllers/art');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 
@@ -12,7 +12,9 @@ router.post('/art/create/:userId', requireSignin, isAuth, isAdmin, create);
 router.delete('/art/:artId/:userId', requireSignin, isAuth, isAdmin, remove);
 
 router.get('/arts', list)
+router.get("/arts/related/:artId", artRelated);
+
 router.param('userId', userById)
 router.param('artId', artById)
 
-module.exports= router;
+module.exports = router;

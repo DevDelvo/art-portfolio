@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 
         let art = new Art(fields)
         if (files.photo) {
-            console.log("size", files.photo.size / 1000)
+            // console.log("size", files.photo.size / 1000)
             if (files.photo.size > 1000000) { // stops if file is more than 1MB (1000000KB) in size
                 return res.status(400).json({
                     error: "Image should be less than 1MB in size."
@@ -82,8 +82,8 @@ exports.update = (req, res) => {
         art = _.extend(art, fields);
 
         if (files.photo) {
-            console.log("size", files.photo.size / 1000)
-            if (files.photo.size > 1000000) { // stops if file is more than 1MB (1000000KB) in size
+            // console.log("size", files.photo.size / 1000)
+            if (files.photo.size > 1000000) { // stops if file is more than 1MB (1000000B) in size
                 return res.status(400).json({
                     error: "Image should be less than 1MB in size."
                 });
@@ -140,6 +140,22 @@ exports.list = (req, res) => {
                     message: "Art not found."
                 });
             }
-            res.send(data);
+            res.json(data);
         });
+}
+
+exports.artRelated = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+    //$ne means not equal to
+    Art.find({_id: {$ne: req.art}, category: req.art.category})
+    .limit(limit)
+    .populate('category', '_id name')
+    .exec((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                message: "Art not found."
+            });
+        }
+        res.json(data);
+    })
 }
