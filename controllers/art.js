@@ -159,3 +159,66 @@ exports.artRelated = (req, res) => {
         res.json(data);
     })
 }
+
+exports.listCategories = (req, res) => {
+    Art.distinct("category", {}, (err, Categories) => { //distinct - Finds the distinct values for a specified field across a single collection or view and returns the results in an array.
+        if (err) {
+            return res.status(400).json({
+                message: "Categories not found."
+            });
+        }
+        res.json(Categories);
+    })
+}
+
+/**
+ * list products by search
+ * we will implement product search in react frontend
+ * we will show categories in checkbox and price range in radio buttons
+ * as the user clicks on those checkbox and radio buttons
+ * we will make api request and show the products to users based on what he wants
+ */
+
+exports.listBySearch = (req, res) => {
+    let order = req.body.order ? req.body.order : "desc";
+    let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+    let skip = parseInt(req.body.skip);
+    let findArgs = {};
+
+    // console.log(order, sortBy, limit, skip, req.body.filters);
+    // console.log("findArgs", findArgs);
+
+    for (let key in req.body.filters) {
+        if (req.body.filters[key].length > 0) {
+            if (key === "price") {
+                // gte -  greater than price [0-10]
+                // lte - less than
+                findArgs[key] = {
+                    $gte: req.body.filters[key][0], // $gte - greater than or equal
+                    $lte: req.body.filters[key][1] // $lte - less than or equal
+                };
+            } else {
+                findArgs[key] = req.body.filters[key];
+            }
+        }
+    }
+
+    Art.find(findArgs)
+        .select("-photo")
+        .populate("category")
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .limit(limit)
+        .exec((err, data) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Art not found"
+                });
+            }
+            res.json({
+                size: data.length,
+                data
+            });
+        });
+};
