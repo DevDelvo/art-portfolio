@@ -28,7 +28,8 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const user = {name, email, password}
+        const user = {name, email: email.toLowerCase(), password}
+        console.log(user)
         signup(user)
         .then(() => {
             setState({
@@ -42,6 +43,7 @@ const Signup = () => {
         })
         .catch(error => {
             let res = error.response;
+            console.log(res)
             setState({...state, error: res.data.error, success: false})
         })
         ;
