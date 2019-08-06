@@ -5,7 +5,7 @@ export const signup = (user) => {
     try {
         return axios.post(`${API}/signup`, user);
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
@@ -13,13 +13,25 @@ export const signin = (user) => {
     try {
         return axios.post(`${API}/signin`, user);
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
 }
 
 export const authenticate = (data, next) => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
         localStorage.setItem('jwt', JSON.stringify(data))
         next();
+    }
+}
+
+export const signout = (next) => {
+    try {
+        if (typeof window !== "undefined") {
+            localStorage.removeItem('jwt');
+            next();
+            return axios.get(`${API}/signout`)
+        }
+    } catch(err) {
+        console.log(err);
     }
 }
