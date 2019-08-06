@@ -11,7 +11,7 @@ const Signup = () => {
         success: false,
     });
 
-    const {name, email, password, error, success} = state;
+    const { name, email, password, error, success } = state;
 
     const handleChange = name => e => {
         setState({ ...state, error: false, [name]: e.target.value })

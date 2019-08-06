@@ -1,57 +1,88 @@
 import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
-import axios from 'axios';
+import { signin } from '../auth';
 
 const Signin = () => {
     const [state, setState] = useState({
-        name: '',
         email: '',
         password: '',
         error: '',
-        success: false,
+        loading: false,
+        redirectToReferrer: false,
     });
 
-    // const handleChange = name => e => {
-    //     setState({ ...state, error: false, [name]: e.target.value })
-    // }
+    const { email, password, error, loading, redirectToReferrer } = state;
 
-    // const signin = async (name, email, password) => {
-    //     console.log(name, email, password)
-    //     try {
-    //         let res = await axios.post("https://localhost")
-    //     } catch (err) {
-    //         console.error(err)
-    //     }
-    // }
+    const handleChange = name => e => {
+        setState({ ...state, error: false, [name]: e.target.value })
+    }
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const {name, email, password} = state;
-    //     signin(name, email, password);
-    // }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setState({ ...state, error: false, loading: true })
+        const user = {email: email.toLowerCase(), password};
+        signin(user)
+        .then(() => {
+            setState({...state, redirectToReferrer: true, loading: false})
+        })
+        .catch(err => {
+            let res = err.response
+            setState({...state, error: res.data.error, loading: false})
+        })
+    }
 
-    // const signinForm = () => (
-    //     <form>
-    //         <div className="form-group">
-    //             <label className="text-muted">Name</label>
-    //             <input type="name" className="form-control" onChange={handleChange('name')} />
-    //         </div>
+    const signinForm = () => (
+        <form>
+            <div className="form-group">
+                <label className="text-muted">Email</label>
+                <input
+                    type="email"
+                    className="form-control"
+                    onChange={handleChange('email')}
+                    value={email}
+                />
+            </div>
 
-    //         <div className="form-group">
-    //             <label className="text-muted">Email</label>
-    //             <input type="email" className="form-control" onChange={handleChange('email')} />
-    //         </div>
+            <div className="form-group">
+                <label className="text-muted">Password</label>
+                <input
+                    type="password"
+                    className="form-control"
+                    onChange={handleChange('password')}
+                    value={password}
+                    />
+            </div>
+            <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+        </form>
+    )
 
-    //         <div className="form-group">
-    //             <label className="text-muted">Password</label>
-    //             <input type="password" className="form-control" onChange={handleChange('password')} />
-    //         </div>
-    //         <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
-    //     </form>
-    // )
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
+
+    const showLoading = () => (
+        loading && (
+            <div className="alert alert-info">
+                <h2>Loading...</h2>
+            </div>
+        )
+    )
+
+    const redirectUser = () => {
+        if (redirectToReferrer) {
+            return <Redirect to="/" />
+        }
+    }
 
     return(
         <Layout title="Signin" description="Signin page" className="container col-md-8 offset-md-2">
+            {showLoading()}
+            {showError()}
+            {signinForm()}
+            {redirectUser()}
         </Layout>
     )
 }

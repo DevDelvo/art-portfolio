@@ -8,3 +8,11 @@ export const signup = (user) => {
         console.log(err)
     }
 }
+
+export const signin = (user) => {
+    try {
+        return axios.post(`${API}/signin`, user);
+    } catch (err) {
+        console.log(err)
+    }
+}
