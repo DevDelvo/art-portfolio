@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '../core/Layout';
-import axios from 'axios';
-import { API } from '../config';
+import { signup } from '../auth'
 
 const Signup = () => {
     const [state, setState] = useState({
@@ -18,18 +17,9 @@ const Signup = () => {
         setState({ ...state, error: false, [name]: e.target.value })
     }
 
-    const signup = (user) => {
-        try {
-            return axios.post(`${API}/signup`, user);
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const user = {name, email: email.toLowerCase(), password}
-        console.log(user)
         signup(user)
         .then(() => {
             setState({
