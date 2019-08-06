@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Layout from '../core/Layout';
-import { signin } from '../auth';
+import { signin, authenticate } from '../auth';
 
 const Signin = () => {
     const [state, setState] = useState({
-        email: '',
-        password: '',
+        email: 'kevinbdelvo@gmail.com',
+        password: 'password1',
         error: '',
         loading: false,
         redirectToReferrer: false,
@@ -23,8 +23,11 @@ const Signin = () => {
         setState({ ...state, error: false, loading: true })
         const user = {email: email.toLowerCase(), password};
         signin(user)
-        .then(() => {
-            setState({...state, redirectToReferrer: true, loading: false})
+        .then((data) => {
+            // setState({...state, redirectToReferrer: true, loading: false})
+            authenticate(data, () => {
+                setState({ ...state, redirectToReferrer: true })
+            })
         })
         .catch(err => {
             let res = err.response
