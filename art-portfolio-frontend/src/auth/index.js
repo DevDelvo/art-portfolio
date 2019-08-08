@@ -1,17 +1,22 @@
 import { API } from '../config';
 import axios from 'axios'
 
-export const signup = (user) => {
+export const signup = async (user) => {
     try {
-        return axios.post(`${API}/signup`, user);
+        let res = await axios.post(`${API}/signup`, user);
+        const { data } = res;
+        return data;
     } catch (err) {
         console.log(err);
     }
 }
 
-export const signin = (user) => {
+export const signin = async (user) => {
     try {
-        return axios.post(`${API}/signin`, user);
+        let res = await axios.post(`${API}/signin`, user);
+        const { data } = res;
+        console.log(data)
+        return data;
     } catch (err) {
         console.log(err);
     }
@@ -24,14 +29,27 @@ export const authenticate = (data, next) => {
     }
 }
 
-export const signout = (next) => {
+export const signout = async (next) => {
     try {
         if (typeof window !== "undefined") {
             localStorage.removeItem('jwt');
             next();
-            return axios.get(`${API}/signout`)
+            let res = await axios.get(`${API}/signout`);
+            const { data } = res;
+            console.log(data)
         }
     } catch(err) {
         console.log(err);
+    }
+}
+
+export const isAuthenticated = () => {
+    if (typeof window === "undefined") {
+        return false;
+    }
+    if (localStorage.getItem('jwt')) {
+        return JSON.parse(localStorage.getItem('jwt'));
+    } else {
+        return false;
     }
 }
