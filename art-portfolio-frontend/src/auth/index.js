@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const signup = (user) => {
     try {
-        return axios.post(`${API}/signup`, user);
+        return axios.post(`${API}/signup`, user); //only returning the promise because we handle the promise in our handleSubmit functions in our react components
     } catch (err) {
         console.log(err);
     }
