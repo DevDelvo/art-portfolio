@@ -42,7 +42,7 @@ const Dashboard = () => {
     )
 
     return(
-        <Layout title="User Dashboard" description={`Welcome back ${name}!`} className="container">
+        <Layout title="User Dashboard" description={`Welcome back ${name}!`} className="container-fluid">
         <div className="row">
             <div className="col-3">
                 {renderUserLinks()}
