@@ -42,6 +42,14 @@ const AddCategory = () => {
     }
   };
 
+  const goBack = () => (
+    <div className="mt-5">
+      <Link to="/admin/dashboard" className="text-warning">
+        Back to DashBoard
+      </Link>
+    </div>
+  );
+
   const newCategoryForm = () => (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
@@ -70,6 +78,7 @@ const AddCategory = () => {
           {showSuccess()}
           {showError()}
           {newCategoryForm()}
+          {goBack()}
         </div>
       </div>
     </Layout>
