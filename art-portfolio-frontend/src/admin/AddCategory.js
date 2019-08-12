@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { createCategory } from './adminHelper';
 
 const AddCategory = () => {
-  const [name, setName] = useState('');
+  const [category, setCategory] = useState('');
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -13,16 +13,14 @@ const AddCategory = () => {
 
   const handleChange = e => {
     setError('');
-    setName(e.target.value);
+    setCategory(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(name);
     setError('');
     setSuccess(false);
-    console.log(name);
-    createCategory(user._id, token, { name })
+    createCategory(user._id, token, { name: category })
       .then(data => {
         setError('');
         setSuccess(true);
@@ -34,13 +32,13 @@ const AddCategory = () => {
 
   const showSuccess = () => {
     if (success) {
-      return <h3 className="text-success">{name} has been created.</h3>;
+      return <h3 className="text-success">{category} has been created.</h3>;
     }
   };
 
   const showError = () => {
     if (error) {
-      return <h3 className="text-danger">{name} should be unique.</h3>;
+      return <h3 className="text-danger">{category} should be unique.</h3>;
     }
   };
 
@@ -51,9 +49,10 @@ const AddCategory = () => {
         <input
           type="text"
           className="form-control"
-          value={name}
+          value={category}
           autoFocus
           onChange={handleChange}
+          required
         />
       </div>
       <button className="btn btn-outline-primary">Create Category</button>

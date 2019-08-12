@@ -7,7 +7,6 @@ export const createCategory = (userId, token, category) => {
       Authorization: `Bearer ${token}`
     }
   };
-  console.log(authOptions);
   try {
     return axios.post(
       `${API}/category/create/${userId}`,
