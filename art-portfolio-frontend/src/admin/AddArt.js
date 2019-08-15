@@ -183,7 +183,7 @@ const AddCategory = () => {
       className="alert alert-info"
       style={{ display: createdArt ? '' : 'none' }}
     >
-      <h2>{`${createdArt}`} was created!</h2>
+      <h2>{`${createdArt}`} was successfully uploaded!</h2>
     </div>
   );
 
