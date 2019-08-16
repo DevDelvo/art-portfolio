@@ -43,3 +43,11 @@ export const read = artId => {
     console.log(err);
   }
 };
+
+export const listRelated = artId => {
+  try {
+    return axios.get(`${API}/arts/related/${artId}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
