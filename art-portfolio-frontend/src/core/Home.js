@@ -5,7 +5,7 @@ import { getArts } from './coreHelper';
 
 const Home = () => {
   const [artBySell, setArtBySell] = useState([]);
-  const [artByArrival, setArtByCreation] = useState([]);
+  const [artByCreation, setArtByCreation] = useState([]);
   const [err, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
@@ -55,7 +55,7 @@ const Home = () => {
     >
       <h2 className="mb-4">Newest</h2>
       <div className="row">
-        {artBySell.map((art, idx) => (
+        {artByCreation.map((art, idx) => (
           <ArtCard key={idx} art={art} />
         ))}
       </div>
