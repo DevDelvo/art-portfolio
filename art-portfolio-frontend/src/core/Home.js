@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import ArtCard from './ArtCard';
 import { getArts } from './coreHelper';
+import Search from './Search';
 
 const Home = () => {
   const [artBySell, setArtBySell] = useState([]);
@@ -40,12 +41,12 @@ const Home = () => {
     loadArtBySell();
   }, []);
 
-  const showLoading = () =>
-    isLoading && (
-      <div className="alert alert-success">
-        <h2>Loading...</h2>
-      </div>
-    );
+  // const showLoading = () =>
+  //   isLoading && (
+  //     <div className="alert alert-success">
+  //       <h2>Loading...</h2>
+  //     </div>
+  //   );
 
   return (
     <Layout
@@ -53,6 +54,7 @@ const Home = () => {
       description="Welcome to Kevin Delvo's Art website!"
       className="container-fluid"
     >
+      <Search />
       <h2 className="mb-4">Newest</h2>
       <div className="row">
         {artByCreation.map((art, idx) => (
