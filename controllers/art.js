@@ -241,7 +241,7 @@ exports.listBySearch = (req, res) => {
 };
 
 exports.photo = (req, res, next) => {
-  console.log(req.art);
+  //   console.log(req.art);
   if (req.art.photo.data) {
     res.set('Content-Type', req.art.photo.contentType); //set content type i.e: .jpg, .png, .pdf.
     return res.send(req.art.photo.data);

@@ -14,6 +14,7 @@ const Shop = () => {
   const [error, setError] = useState(false);
   const [limit, setLimit] = useState(6);
   const [skip, setSkip] = useState(0);
+  const [size, setSize] = useState(0);
   const [filteredResults, setFilteredResults] = useState([]);
 
   useEffect(() => {
@@ -58,11 +59,38 @@ const Shop = () => {
     getFilteredArt(skip, limit, newFilters)
       .then(data => {
         setFilteredResults(data.data.data);
+        setSize(data.data.size);
+        setSkip(0);
       })
       .catch(err => {
         const res = err.response;
         setError(res.data.error);
       });
+  };
+
+  const loadMoreArt = () => {
+    let toSkip = skip + limit;
+    getFilteredArt(toSkip, limit, myFilters.filters) // set toSkip to skip over the things we've already seen
+      .then(data => {
+        setFilteredResults([...filteredResults, ...data.data.data]);
+        setSize(data.size);
+        setSkip(toSkip);
+      })
+      .catch(err => {
+        const res = err.response;
+        setError(res.data.error);
+      });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      size > 0 &&
+      size >= limit && (
+        <button className="btn btn-warning mb-5" onClick={loadMoreArt}>
+          Load more
+        </button>
+      )
+    );
   };
 
   return (
@@ -83,7 +111,6 @@ const Shop = () => {
             }
           </ul>
           <h4>Filter by Price Range</h4>
-          {JSON.stringify(myFilters)}
           <Radiobox
             prices={prices}
             handleFilters={filters => handleFilters(filters, 'price')}
@@ -96,6 +123,8 @@ const Shop = () => {
               return <ArtCard key={idx} art={art} />;
             })}
           </div>
+          <hr />
+          {loadMoreButton()}
         </div>
       </div>
     </Layout>
