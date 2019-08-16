@@ -7,11 +7,12 @@ const Search = () => {
     categories: [],
     category: 'All',
     search: '',
+    searched: false,
     results: []
   });
   const [error, setError] = useState(false);
 
-  const { categories, category, search, results } = state;
+  const { categories, category, search, searched, results } = state;
 
   useEffect(() => {
     loadCategories();
@@ -59,12 +60,24 @@ const Search = () => {
     }
   };
 
+  const searchMessage = (searched, results) => {
+    if (searched && results.length > 0) {
+      return `Found ${results.length} items.`;
+    }
+    if (searched && results.length < 1) {
+      return 'No items found matching that search.';
+    }
+  };
+
   const searchedArt = (results = []) => {
     return (
-      <div className="row">
-        {results.map((art, idx) => (
-          <ArtCard key={idx} art={art} />
-        ))}
+      <div>
+        <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
+        <div className="row">
+          {results.map((art, idx) => (
+            <ArtCard key={idx} art={art} />
+          ))}
+        </div>
       </div>
     );
   };
@@ -75,7 +88,7 @@ const Search = () => {
         <div className="input-group input-group-lg">
           <div className="input-group-prepend">
             <select className="btn mr-2" onChange={handleChange('category')}>
-              <option value="All">Pick a category</option>
+              <option value="All">All</option>
               {categories.map((category, idx) => {
                 const { _id, name } = category;
                 return (
