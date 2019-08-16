@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <Layout
       title="Home Page"
-      description="Art Portfolio"
+      description="Welcome to Kevin Delvo's Art website!"
       className="container-fluid"
     >
       <h2 className="mb-4">Newest</h2>
