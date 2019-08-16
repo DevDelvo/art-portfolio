@@ -4,12 +4,12 @@ import Layout from './Layout';
 import ArtCard from './ArtCard';
 import { getCart } from './cartHelper';
 
-const Cart = () => {
+const Cart = props => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [items]); //whenver items changes, useEffect will run
 
   const showItems = items => {
     return (
@@ -21,6 +21,7 @@ const Cart = () => {
             art={item}
             showCartButton={false}
             cartUpdate={true}
+            showRemoveButton={true}
           />
         ))}
       </div>

@@ -3,13 +3,14 @@ import ShowImage from './ShowImage';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
 
-import { addItem, updateItem } from './cartHelper';
+import { addItem, updateItem, removeItem, isInCart } from './cartHelper';
 
 const ArtCard = ({
   art,
   showViewArtButton = true,
   showCartButton = true,
-  cartUpdate = false
+  cartUpdate = false,
+  showRemoveButton = false
 }) => {
   const [count, setCount] = useState(art.count);
   const [redirect, setRedirect] = useState(false);
@@ -23,10 +24,13 @@ const ArtCard = ({
   //   });
   // };
   const addToCart = () => {
-    console.log(art);
     addItem(art, () => {
       setRedirect(true);
     });
+  };
+
+  const removeFromCart = artId => {
+    removeItem(artId);
   };
 
   const showStock = quantity => {
@@ -45,7 +49,8 @@ const ArtCard = ({
       </Link>
     );
 
-  const showAddToCartButton = () =>
+  const showAddToCartButton = showCartButton =>
+    !isInCart(_id) &&
     showCartButton && (
       <Link to="/">
         <button
@@ -56,6 +61,16 @@ const ArtCard = ({
           Add to Cart
         </button>
       </Link>
+    );
+
+  const showRemoveFromCartButton = showRemoveButton =>
+    showRemoveButton && (
+      <button
+        className="btn btn-outline-danger mt-2 mb-2"
+        onClick={() => removeFromCart(_id)}
+      >
+        Remove from Cart
+      </button>
     );
 
   const handleQuantity = artId => e => {
@@ -101,7 +116,8 @@ const ArtCard = ({
         {showStock(quantity)}
         <br />
         {showViewButton()}
-        {showAddToCartButton()}
+        {showAddToCartButton(showCartButton)}
+        {showRemoveFromCartButton(showRemoveButton)}
         {showCartUpdateOptions(cartUpdate)}
       </div>
     </div>

@@ -51,7 +51,36 @@ export const updateItem = (artId, count) => {
   }
 };
 
-export const removeFromCart = () => {
+export const removeItem = artId => {
+  let cart = [];
   if (typeof window !== 'undefined') {
+    if (localStorage.getItem('cart')) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    cart.map((art, idx) => {
+      if (art._id === artId) {
+        cart.splice(idx, 1);
+      }
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
+  return cart;
+};
+
+export const isInCart = artId => {
+  let cart = [];
+  if (typeof window !== 'undefined') {
+    if (localStorage.getItem('cart')) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+  }
+  for (const item of cart) {
+    // console.log(item);
+    console.log(item._id);
+    console.log(artId);
+    if (item._id === artId) return true;
+  }
+  return false;
 };
