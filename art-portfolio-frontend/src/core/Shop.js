@@ -3,7 +3,7 @@ import Layout from './Layout';
 import ArtCard from './ArtCard';
 import Checkbox from './Checkbox';
 import Radiobox from './Radiobox';
-import { getArts, getCategories } from './coreHelper';
+import { getArts, getCategories, getFilteredArt } from './coreHelper';
 import { prices } from './fixedPrices';
 
 const Shop = () => {
@@ -12,6 +12,14 @@ const Shop = () => {
     filters: { category: [], price: [] }
   });
   const [error, setError] = useState(false);
+  const [limit, setLimit] = useState(6);
+  const [skip, setSkip] = useState(0);
+  const [filteredResults, setFilteredResults] = useState([]);
+
+  useEffect(() => {
+    init();
+    loadFilteredArt(skip, limit, myFilters.filters);
+  }, []);
 
   const init = () => {
     getCategories()
@@ -31,6 +39,7 @@ const Shop = () => {
       let priceRange = handlePriceRange(filters);
       newFilters.filters[filterBy] = priceRange;
     }
+    loadFilteredArt(myFilters.filters);
     setMyFilters(myFilters);
   };
 
@@ -45,9 +54,16 @@ const Shop = () => {
     return array;
   };
 
-  useEffect(() => {
-    init();
-  }, []);
+  const loadFilteredArt = newFilters => {
+    getFilteredArt(skip, limit, newFilters)
+      .then(data => {
+        setFilteredResults(data.data.data);
+      })
+      .catch(err => {
+        const res = err.response;
+        setError(res.data.error);
+      });
+  };
 
   return (
     <Layout
@@ -66,13 +82,19 @@ const Shop = () => {
               />
             }
           </ul>
-          <div className="col-8">
-            <h4>Filter by Price Range</h4>
-            {JSON.stringify(myFilters)}
-            <Radiobox
-              prices={prices}
-              handleFilters={filters => handleFilters(filters, 'price')}
-            />
+          <h4>Filter by Price Range</h4>
+          {JSON.stringify(myFilters)}
+          <Radiobox
+            prices={prices}
+            handleFilters={filters => handleFilters(filters, 'price')}
+          />
+        </div>
+        <div className="col-8">
+          <h2 className="mb-4">Art</h2>
+          <div className="row">
+            {filteredResults.map((art, idx) => {
+              return <ArtCard key={idx} art={art} />;
+            })}
           </div>
         </div>
       </div>

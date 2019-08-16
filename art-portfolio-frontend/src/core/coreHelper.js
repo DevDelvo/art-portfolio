@@ -16,3 +16,12 @@ export const getCategories = () => {
     console.log(err);
   }
 };
+
+export const getFilteredArt = (skip, limit, filters = {}) => {
+  try {
+    const data = { skip, limit, filters };
+    return axios.post(`${API}/arts/by/search`, data);
+  } catch (err) {
+    console.log(err);
+  }
+};
