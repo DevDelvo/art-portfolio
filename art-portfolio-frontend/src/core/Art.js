@@ -24,9 +24,17 @@ const Art = props => {
   };
 
   return (
-    <Layout title="" description="" className="container-fluid">
+    <Layout
+      title={art && art.name}
+      description={art && art.description && art.description.substring(0, 100)}
+      className="container-fluid"
+    >
       <h2 className="mb-4">Art</h2>
-      <div className="row">{JSON.stringify(art)}</div>
+      <div className="row">
+        {art && art.description && (
+          <ArtCard art={art} showViewArtButton={false} />
+        )}
+      </div>
     </Layout>
   );
 };

@@ -7,7 +7,6 @@ const Checkbox = ({ prices, handleFilters }) => {
     const {
       target: { value }
     } = e;
-    console.log(value);
     handleFilters(value);
     setPrice(value);
   };

@@ -119,9 +119,11 @@ const Shop = () => {
         <div className="col-8">
           <h2 className="mb-4">Art</h2>
           <div className="row">
-            {filteredResults.map((art, idx) => {
-              return <ArtCard key={idx} art={art} />;
-            })}
+            {filteredResults.map((art, idx) => (
+              <div key={idx} className="col-4 mb-3">
+                <ArtCard art={art} />
+              </div>
+            ))}
           </div>
           <hr />
           {loadMoreButton()}

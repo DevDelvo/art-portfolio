@@ -58,7 +58,9 @@ const Home = () => {
       <h2 className="mb-4">Newest</h2>
       <div className="row">
         {artByCreation.map((art, idx) => (
-          <ArtCard key={idx} art={art} />
+          <div key={idx} className="col-4 mb-3">
+            <ArtCard art={art} />
+          </div>
         ))}
       </div>
 
@@ -66,7 +68,9 @@ const Home = () => {
       <h2 className="mb-4">Best Sellers</h2>
       <div className="row">
         {artBySell.map((art, idx) => (
-          <ArtCard key={idx} art={art} />
+          <div key={idx} className="col-4 mb-3">
+            <ArtCard art={art} />
+          </div>
         ))}
       </div>
     </Layout>

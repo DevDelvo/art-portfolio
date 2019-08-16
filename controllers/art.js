@@ -5,15 +5,17 @@ const Art = require('../models/art');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.artById = (req, res, next, id) => {
-  Art.findById(id).exec((err, art) => {
-    if (err || !art) {
-      return res.status(400).json({
-        error: 'Art not found'
-      });
-    }
-    req.art = art;
-    next();
-  });
+  Art.findById(id)
+    .populate('category')
+    .exec((err, art) => {
+      if (err || !art) {
+        return res.status(400).json({
+          error: 'Art not found'
+        });
+      }
+      req.art = art;
+      next();
+    });
 };
 
 exports.create = (req, res) => {

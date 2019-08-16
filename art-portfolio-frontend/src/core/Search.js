@@ -75,7 +75,9 @@ const Search = () => {
         <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
         <div className="row">
           {results.map((art, idx) => (
-            <ArtCard key={idx} art={art} />
+            <div key={idx} className="col-4 mb-3">
+              <ArtCard art={art} />
+            </div>
           ))}
         </div>
       </div>
