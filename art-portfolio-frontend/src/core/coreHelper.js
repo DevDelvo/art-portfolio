@@ -35,3 +35,19 @@ export const list = params => {
     console.log(err);
   }
 };
+
+export const read = artId => {
+  try {
+    return axios.get(`${API}/art/${artId}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const listRelated = artId => {
+  try {
+    return axios.get(`${API}/arts/related/${artId}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
