@@ -4,17 +4,18 @@ import Layout from './Layout';
 import ArtCard from './ArtCard';
 import { getCart } from './cartHelper';
 
-const Cart = props => {
+const Cart = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     setItems(getCart());
-  }, [items]); //whenver items changes, useEffect will run
+  }, [items]);
 
   const showItems = items => {
     return (
       <div>
         <h2>Your cart has {`${items.length}`} items</h2>
+        <hr />
         {items.map((item, idx) => (
           <ArtCard
             key={idx}

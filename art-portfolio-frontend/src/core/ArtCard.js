@@ -40,7 +40,7 @@ const ArtCard = ({
       <span className="badge badge-primary badge-pill">Out of stock</span>
     );
   };
-  const showViewButton = () =>
+  const showViewButton = showViewArtButton =>
     showViewArtButton && (
       <Link to={`/art/${_id}`}>
         <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
@@ -50,7 +50,7 @@ const ArtCard = ({
     );
 
   const showAddToCartButton = showCartButton =>
-    !isInCart(_id) &&
+    // !isInCart(_id) &&
     showCartButton && (
       <Link to="/">
         <button
@@ -115,7 +115,7 @@ const ArtCard = ({
         <p className="black-8">Added {moment(createdAt).fromNow()}</p>
         {showStock(quantity)}
         <br />
-        {showViewButton()}
+        {showViewButton(showViewArtButton)}
         {showAddToCartButton(showCartButton)}
         {showRemoveFromCartButton(showRemoveButton)}
         {showCartUpdateOptions(cartUpdate)}

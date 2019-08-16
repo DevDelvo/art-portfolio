@@ -69,18 +69,17 @@ export const removeItem = artId => {
   return cart;
 };
 
-export const isInCart = artId => {
-  let cart = [];
-  if (typeof window !== 'undefined') {
-    if (localStorage.getItem('cart')) {
-      cart = JSON.parse(localStorage.getItem('cart'));
-    }
-  }
-  for (const item of cart) {
-    // console.log(item);
-    console.log(item._id);
-    console.log(artId);
-    if (item._id === artId) return true;
-  }
-  return false;
-};
+// export const isInCart = artId => {
+//   let cart = [];
+//   if (typeof window !== 'undefined') {
+//     if (localStorage.getItem('cart')) {
+//       cart = JSON.parse(localStorage.getItem('cart'));
+//     }
+//   }
+//   for (const item of cart) {
+//     // console.log(item._id);
+//     // console.log(artId);
+//     if (item._id === artId) return true;
+//   }
+//   return false;
+// };
