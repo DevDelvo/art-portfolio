@@ -8,3 +8,20 @@ export const getArts = sortBy => {
     console.log(err);
   }
 };
+
+export const getCategories = () => {
+  try {
+    return axios.get(`${API}/categories`);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getFilteredArt = (skip, limit, filters = {}) => {
+  try {
+    const data = { skip, limit, filters };
+    return axios.post(`${API}/arts/by/search`, data);
+  } catch (err) {
+    console.log(err);
+  }
+};

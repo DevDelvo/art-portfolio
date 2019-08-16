@@ -11,7 +11,7 @@ const ArtCard = ({ art }) => {
         <div className="card-header">{name}</div>
         <ShowImage art={art} url="arts" />
         <div className="card-body">
-          <p>Description: {description}</p>
+          <p>Description: {description.substring(0, 100)}</p>
           <p>Price: ${price}</p>
           <Link to="/">
             <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
