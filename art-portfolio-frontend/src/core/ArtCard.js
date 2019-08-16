@@ -3,9 +3,15 @@ import ShowImage from './ShowImage';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
 
-import { addItem } from './cartHelper';
+import { addItem, updateItem } from './cartHelper';
 
-const ArtCard = ({ art, showViewArtButton = true }) => {
+const ArtCard = ({
+  art,
+  showViewArtButton = true,
+  showCartButton = true,
+  cartUpdate = false
+}) => {
+  const [count, setCount] = useState(art.count);
   const [redirect, setRedirect] = useState(false);
 
   const { _id, name, description, price, category, quantity, createdAt } = art;
@@ -39,18 +45,45 @@ const ArtCard = ({ art, showViewArtButton = true }) => {
       </Link>
     );
 
-  const showAddToCartButton = () => (
-    <Link to="/">
-      <button
-        className="btn btn-outline-warning mt-2 mb-2"
-        // onClick={addToCart(art)}
-        onClick={() => addToCart(art)}
-      >
-        Add to Cart
-      </button>
-    </Link>
-  );
+  const showAddToCartButton = () =>
+    showCartButton && (
+      <Link to="/">
+        <button
+          className="btn btn-outline-warning mt-2 mb-2"
+          // onClick={addToCart(art)}
+          onClick={() => addToCart(art)}
+        >
+          Add to Cart
+        </button>
+      </Link>
+    );
 
+  const handleQuantity = artId => e => {
+    setCount(e.target.value < 1 ? 1 : e.target.value);
+    if (e.target.value >= 1) {
+      updateItem(artId, e.target.value);
+    }
+  };
+
+  const showCartUpdateOptions = cartUpdate => {
+    return (
+      cartUpdate && (
+        <div>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text">Adjust Quantity</span>
+            </div>
+            <input
+              type="number"
+              className="form-control"
+              value={count}
+              onChange={handleQuantity(_id)}
+            />
+          </div>
+        </div>
+      )
+    );
+  };
   const handleRedirect = () => {
     if (redirect) return <Redirect to="/cart" />;
   };
@@ -69,6 +102,7 @@ const ArtCard = ({ art, showViewArtButton = true }) => {
         <br />
         {showViewButton()}
         {showAddToCartButton()}
+        {showCartUpdateOptions(cartUpdate)}
       </div>
     </div>
   );
