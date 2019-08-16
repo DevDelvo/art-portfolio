@@ -1,5 +1,6 @@
 import { API } from '../config';
 import axios from 'axios';
+import queryString from 'query-string';
 
 export const getArts = sortBy => {
   try {
@@ -21,6 +22,15 @@ export const getFilteredArt = (skip, limit, filters = {}) => {
   try {
     const data = { skip, limit, filters };
     return axios.post(`${API}/arts/by/search`, data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const list = params => {
+  try {
+    const query = queryString.stringify(params);
+    return axios.get(`${API}/arts/search?${query}`);
   } catch (err) {
     console.log(err);
   }

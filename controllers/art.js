@@ -160,6 +160,28 @@ exports.list = (req, res) => {
     });
 };
 
+exports.listSearch = (req, res) => {
+  // create query object to hold search value and category
+  const query = {};
+  // assign search value to query.name
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: 'i' }; // regex allows for regex matchin in mongod. 'i' is for capslock insensitivity
+    // assign category value to query.category
+    if (req.query.category && req.query.category !== 'All') {
+      query.category = req.query.category;
+    }
+    // find art based on query object with 2 properties search and categories
+    Art.find(query, (err, arts) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err)
+        });
+      }
+      res.json(arts);
+    }).select('-photo');
+  }
+};
+
 exports.artRelated = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
   //$ne means not equal to
