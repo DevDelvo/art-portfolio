@@ -35,3 +35,11 @@ export const list = params => {
     console.log(err);
   }
 };
+
+export const read = artId => {
+  try {
+    return axios.get(`${API}/art/${artId}`);
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -3,8 +3,8 @@ import ShowImage from './ShowImage';
 import { Link } from 'react-router-dom';
 
 const ArtCard = ({ art }) => {
-  const { name, description, price, createdAt } = art;
-
+  const { _id, name, description, price, createdAt } = art;
+  console.log(art);
   return (
     <div className="col-4 mb-3">
       <div className="card">
@@ -13,7 +13,7 @@ const ArtCard = ({ art }) => {
         <div className="card-body">
           <p>Description: {description.substring(0, 100)}</p>
           <p>Price: ${price}</p>
-          <Link to="/">
+          <Link to={`/art/${_id}`}>
             <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
               View Art
             </button>
