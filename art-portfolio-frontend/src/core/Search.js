@@ -15,8 +15,16 @@ const Search = () => {
   const { categories, category, search, searched, results } = state;
 
   useEffect(() => {
-    loadCategories();
-  });
+    let cancel = false;
+    async function fetchCategories() {
+      loadCategories();
+      if (!cancel) {
+        console.log('Categories fetched in Search.');
+      }
+    }
+    fetchCategories();
+    return () => (cancel = true);
+  }, []);
 
   const loadCategories = async () => {
     // getCategories()
@@ -29,13 +37,13 @@ const Search = () => {
     //     console.log(res.data.error);
     //   });
     // REFACTOR
-    // let data = await getCategories();
-    // console.log(data);
-    // if (data.response) {
-    //   console.log(data.response.data.error);
-    // } else {
-    //   setState({ ...state, categories: data });
-    // }
+    let data = await getCategories();
+    console.log(data);
+    if (data.response) {
+      console.log(data.response.data.error);
+    } else {
+      setState({ ...state, categories: data });
+    }
   };
 
   // const showError = () => (

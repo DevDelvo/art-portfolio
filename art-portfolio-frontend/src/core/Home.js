@@ -57,7 +57,7 @@ const Home = () => {
       loadArtByCreation();
       loadArtBySell();
       if (!cancel) {
-        console.log('Home data fetched.');
+        console.log('Home data');
       }
     }
     fetchData();
