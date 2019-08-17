@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import ArtCard from './ArtCard';
-import { getArts } from './coreHelper';
+import { CancelToken, source, getArts } from './coreHelper';
 import Search from './Search';
 
 const Home = () => {
@@ -20,7 +20,9 @@ const Home = () => {
     //     setError(res.data.error);
     //   });
     // REFACTOR
-    let data = await getArts('sold');
+    let res = await getArts('sold');
+    // console.log('home res: ', res);
+    const { data } = res;
     if (data.response) {
       setError(data.response.data.error);
     } else {
@@ -40,7 +42,8 @@ const Home = () => {
     //   });
     // setLoading(false);
     // REFACTOR
-    let data = await getArts('createdAt');
+    let res = await getArts('createdAt');
+    const { data } = res;
     if (data.response) {
       setError(data.response.data.error);
     } else {
@@ -51,6 +54,7 @@ const Home = () => {
   useEffect(() => {
     loadArtByCreation();
     loadArtBySell();
+    // return () => source.cancel();
   }, []);
 
   // const showLoading = () =>

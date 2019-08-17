@@ -2,6 +2,9 @@ import { API } from '../config';
 import axios from 'axios';
 import queryString from 'query-string';
 
+export const CancelToken = axios.CancelToken;
+export const source = CancelToken.source();
+
 export const getArts = async sortBy => {
   // try {
   //   return axios.get(`${API}/arts?sortBy=${sortBy}&order=desc&limit=6`);
@@ -11,12 +14,18 @@ export const getArts = async sortBy => {
   // REFACTOR
   try {
     let res = await axios.get(
-      `${API}/arts?sortBy=${sortBy}&order=desc&limit=6`
+      `${API}/arts?sortBy=${sortBy}&order=desc&limit=6`,
+      { cancelToken: source.token }
     );
-    const { data } = res;
-    return data;
+    // const { data } = res;
+    // console.log(res);
+    return res;
   } catch (err) {
-    return err;
+    if (axios.isCancel(err)) {
+      console.log(err);
+    } else {
+      return err;
+    }
   }
 };
 
@@ -28,20 +37,34 @@ export const getCategories = async () => {
   // }
   // REFACTOR
   try {
-    let res = await axios.get(`${API}/categories`);
+    let res = await axios.get(`${API}/categories`, {
+      cancelToken: source.token
+    });
     const { data } = res;
     return data;
   } catch (err) {
-    return err;
+    if (axios.isCancel(err)) {
+      console.log('is cancelled');
+    } else {
+      return err;
+    }
   }
 };
 
-export const getFilteredArt = (skip, limit, filters = {}) => {
+export const getFilteredArt = async (skip, limit, filters = {}) => {
+  // try {
+  //   const data = { skip, limit, filters };
+  //   return axios.post(`${API}/arts/by/search`, data);
+  // } catch (err) {
+  //   console.log(err);
+  // }
+  // REFACTOR
   try {
     const data = { skip, limit, filters };
-    return axios.post(`${API}/arts/by/search`, data);
+    let res = await axios.post(`${API}/arts/by/search`, data);
+    return res;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 

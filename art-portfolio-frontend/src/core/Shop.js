@@ -3,7 +3,7 @@ import Layout from './Layout';
 import ArtCard from './ArtCard';
 import Checkbox from './Checkbox';
 import RadioBox from './RadioBox';
-import { getCategories, getFilteredArt } from './coreHelper';
+import { source, getCategories, getFilteredArt } from './coreHelper';
 import { prices } from './fixedPrices';
 
 const Shop = () => {
@@ -20,6 +20,7 @@ const Shop = () => {
   useEffect(() => {
     init();
     loadFilteredArt(skip, limit, myFilters.filters);
+    // return () => source.cancel();
   }, []);
 
   const init = async () => {
@@ -62,31 +63,51 @@ const Shop = () => {
     return array;
   };
 
-  const loadFilteredArt = newFilters => {
-    getFilteredArt(skip, limit, newFilters)
-      .then(data => {
-        setFilteredResults(data.data.data);
-        setSize(data.data.size);
-        setSkip(0);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+  const loadFilteredArt = async newFilters => {
+    // getFilteredArt(skip, limit, newFilters)
+    //   .then(data => {
+    //     setFilteredResults(data.data.data);
+    //     setSize(data.data.size);
+    //     setSkip(0);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let res = await getFilteredArt(skip, limit, newFilters);
+    const { data } = res;
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setFilteredResults(data.data);
+      setSize(data.size);
+      setSkip(0);
+    }
   };
 
-  const loadMoreArt = () => {
+  const loadMoreArt = async () => {
     let toSkip = skip + limit;
-    getFilteredArt(toSkip, limit, myFilters.filters) // set toSkip to skip over the things we've already seen
-      .then(data => {
-        setFilteredResults([...filteredResults, ...data.data.data]);
-        setSize(data.size);
-        setSkip(toSkip);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+    // getFilteredArt(toSkip, limit, myFilters.filters) // set toSkip to skip over the things we've already seen
+    //   .then(data => {
+    //     setFilteredResults([...filteredResults, ...data.data.data]);
+    //     setSize(data.size);
+    //     setSkip(toSkip);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let res = await getFilteredArt(toSkip, limit, myFilters.filters);
+    const { data } = res;
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setFilteredResults([...filteredResults, ...data.data]);
+      setSize(data.size);
+      setSkip(toSkip);
+    }
   };
 
   const loadMoreButton = () => {
@@ -131,7 +152,7 @@ const Shop = () => {
             ))}
           </div>
           <hr />
-          {loadMoreButton()}
+          {/* {loadMoreButton()} */}
         </div>
       </div>
     </Layout>
