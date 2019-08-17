@@ -10,30 +10,42 @@ const Home = () => {
   const [err, setError] = useState(false);
   // const [isLoading, setLoading] = useState(false);
 
-  const loadArtBySell = () => {
-    // setLoading(true);
-    getArts('sold')
-      .then(data => {
-        setArtBySell(data.data);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
-    // setLoading(false);
+  const loadArtBySell = async () => {
+    // getArts('sold')
+    //   .then(data => {
+    //     setArtBySell(data.data);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let data = await getArts('sold');
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setArtBySell(data);
+    }
   };
 
-  const loadArtByCreation = () => {
+  const loadArtByCreation = async () => {
     // setLoading(true);
-    getArts('createdAt')
-      .then(data => {
-        setArtByCreation(data.data);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+    // getArts('createdAt')
+    //   .then(data => {
+    //     setArtByCreation(data.data);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
     // setLoading(false);
+    // REFACTOR
+    let data = await getArts('createdAt');
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setArtByCreation(data);
+    }
   };
 
   useEffect(() => {

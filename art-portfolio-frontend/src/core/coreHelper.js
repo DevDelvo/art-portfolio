@@ -2,11 +2,21 @@ import { API } from '../config';
 import axios from 'axios';
 import queryString from 'query-string';
 
-export const getArts = sortBy => {
+export const getArts = async sortBy => {
+  // try {
+  //   return axios.get(`${API}/arts?sortBy=${sortBy}&order=desc&limit=6`);
+  // } catch (err) {
+  //   console.log(err);
+  // }
+  // REFACTOR
   try {
-    return axios.get(`${API}/arts?sortBy=${sortBy}&order=desc&limit=6`);
+    let res = await axios.get(
+      `${API}/arts?sortBy=${sortBy}&order=desc&limit=6`
+    );
+    const { data } = res;
+    return data;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
