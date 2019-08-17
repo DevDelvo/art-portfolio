@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from './Layout';
 import ArtCard from './ArtCard';
+import Checkout from './Checkout';
 import { getCart } from './cartHelper';
 
 const Cart = () => {
@@ -9,7 +10,6 @@ const Cart = () => {
 
   useEffect(() => {
     setItems(getCart());
-    return;
   }, [items]);
 
   const showItems = items => {
@@ -48,7 +48,9 @@ const Cart = () => {
           {items.length > 0 ? showItems(items) : noItems()}
         </div>
         <div className="col-6">
-          <p>show checkout options/shipping address/total/update quantity</p>
+          <h2 className="mb-4">Your cart summary</h2>
+          <hr />
+          <Checkout cart={items} />
         </div>
       </div>
     </Layout>

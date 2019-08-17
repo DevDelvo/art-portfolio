@@ -28,12 +28,14 @@ export const itemTotal = () => {
 };
 
 export const getCart = () => {
+  let cart = [];
   if (typeof window !== 'undefined') {
     if (localStorage.getItem('cart')) {
-      return JSON.parse(localStorage.getItem('cart'));
+      cart = JSON.parse(localStorage.getItem('cart'));
     }
   }
-  return [];
+  console.log(cart);
+  return cart;
 };
 
 export const updateItem = (artId, count) => {
