@@ -8,10 +8,10 @@ const Home = () => {
   const [artBySell, setArtBySell] = useState([]);
   const [artByCreation, setArtByCreation] = useState([]);
   const [err, setError] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
 
   const loadArtBySell = () => {
-    setLoading(true);
+    // setLoading(true);
     getArts('sold')
       .then(data => {
         setArtBySell(data.data);
@@ -20,11 +20,11 @@ const Home = () => {
         const res = err.response;
         setError(res.data.error);
       });
-    setLoading(false);
+    // setLoading(false);
   };
 
   const loadArtByCreation = () => {
-    setLoading(true);
+    // setLoading(true);
     getArts('createdAt')
       .then(data => {
         setArtByCreation(data.data);
@@ -33,7 +33,7 @@ const Home = () => {
         const res = err.response;
         setError(res.data.error);
       });
-    setLoading(false);
+    // setLoading(false);
   };
 
   useEffect(() => {
@@ -78,3 +78,4 @@ const Home = () => {
 };
 
 export default Home;
+// checked

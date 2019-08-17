@@ -12,7 +12,8 @@ const Checkbox = ({ categories, handleFilters }) => {
       filters.splice(currentCategoryId, 1);
     }
     setChecked(filters);
-    handleFilters(filters, 'category');
+    // handleFilters(filters, 'category');
+    handleFilters(filters);
   };
 
   return categories.map((category, idx) => {
@@ -32,3 +33,4 @@ const Checkbox = ({ categories, handleFilters }) => {
 };
 
 export default Checkbox;
+// checked

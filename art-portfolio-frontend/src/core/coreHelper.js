@@ -51,3 +51,17 @@ export const listRelated = artId => {
     console.log(err);
   }
 };
+
+export const getBraintreeClientToken = (userId, token) => {
+  try {
+    const authOptions = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    return axios.get(`${API}/braintree/getToken/${userId}`, authOptions);
+  } catch (err) {
+    console.log(err);
+  }
+};
+// POSSIBLY

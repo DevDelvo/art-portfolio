@@ -28,14 +28,12 @@ export const itemTotal = () => {
 };
 
 export const getCart = () => {
-  let cart = [];
   if (typeof window !== 'undefined') {
     if (localStorage.getItem('cart')) {
-      cart = JSON.parse(localStorage.getItem('cart'));
+      return JSON.parse(localStorage.getItem('cart'));
     }
   }
-  console.log(cart);
-  return cart;
+  return [];
 };
 
 export const updateItem = (artId, count) => {
@@ -71,17 +69,4 @@ export const removeItem = artId => {
   return cart;
 };
 
-// export const isInCart = artId => {
-//   let cart = [];
-//   if (typeof window !== 'undefined') {
-//     if (localStorage.getItem('cart')) {
-//       cart = JSON.parse(localStorage.getItem('cart'));
-//     }
-//   }
-//   for (const item of cart) {
-//     // console.log(item._id);
-//     // console.log(artId);
-//     if (item._id === artId) return true;
-//   }
-//   return false;
-// };
+// checked

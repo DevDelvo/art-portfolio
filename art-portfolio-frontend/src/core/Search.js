@@ -10,13 +10,13 @@ const Search = () => {
     searched: false,
     results: []
   });
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
 
   const { categories, category, search, searched, results } = state;
 
   useEffect(() => {
     loadCategories();
-  }, []);
+  });
 
   const loadCategories = () => {
     getCategories()
@@ -25,18 +25,19 @@ const Search = () => {
       })
       .catch(err => {
         const res = err.response;
-        setError(res.data.error);
+        // setError(res.data.error);
+        console.log(res.data.error);
       });
   };
 
-  const showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: error ? '' : 'none' }}
-    >
-      {error}
-    </div>
-  );
+  // const showError = () => (
+  //   <div
+  //     className="alert alert-danger"
+  //     style={{ display: error ? '' : 'none' }}
+  //   >
+  //     {error}
+  //   </div>
+  // );
 
   const handleChange = name => e => {
     setState({ ...state, [name]: e.target.value, searched: false });
@@ -55,7 +56,8 @@ const Search = () => {
         })
         .catch(err => {
           const res = err.response;
-          setError(res.data.error);
+          // setError(res.data.error);
+          console.log(res.data.error);
         });
     }
   };
@@ -117,7 +119,7 @@ const Search = () => {
 
   return (
     <div className="row">
-      {showError()}
+      {/* {showError()} */}
       <div className="container mb-3">{searchForm()}</div>
       <div className="container-fluid mb-3">{searchedArt(results)}</div>
     </div>
@@ -125,3 +127,5 @@ const Search = () => {
 };
 
 export default Search;
+// checked
+// double checked.

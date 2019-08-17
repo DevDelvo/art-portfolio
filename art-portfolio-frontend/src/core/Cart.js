@@ -10,7 +10,7 @@ const Cart = () => {
 
   useEffect(() => {
     setItems(getCart());
-  }, [items]);
+  }, []);
 
   const showItems = items => {
     return (
@@ -37,6 +37,7 @@ const Cart = () => {
       <Link to="/shop">Continue shopping</Link>
     </h2>
   );
+
   return (
     <Layout
       title="Cart"

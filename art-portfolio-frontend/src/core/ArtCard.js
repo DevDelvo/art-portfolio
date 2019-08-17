@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ShowImage from './ShowImage';
 import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
-
 import { addItem, updateItem, removeItem, isInCart } from './cartHelper';
 
 const ArtCard = ({
@@ -29,12 +28,8 @@ const ArtCard = ({
     });
   };
 
-  const handleRedirect = () => {
+  const handleRedirect = redirect => {
     if (redirect) return <Redirect to="/cart" />;
-  };
-
-  const removeFromCart = artId => {
-    removeItem(artId);
   };
 
   const showStock = quantity => {
@@ -47,7 +42,7 @@ const ArtCard = ({
 
   const showViewButton = showViewArtButton =>
     showViewArtButton && (
-      <Link to={`/art/${_id}`}>
+      <Link to={`/art/${_id}`} className="mr-2">
         <button className="btn btn-outline-primary mt-2 mb-2 mr-2">
           View Art
         </button>
@@ -55,12 +50,11 @@ const ArtCard = ({
     );
 
   const showAddToCartButton = showCartButton =>
-    // !isInCart(_id) &&
     showCartButton && (
       <button
         className="btn btn-outline-warning mt-2 mb-2"
-        // onClick={addToCart(art)}
-        onClick={() => addToCart(art)}
+        onClick={addToCart}
+        // onClick={() => addToCart(art)}
       >
         Add to Cart
       </button>
@@ -70,7 +64,7 @@ const ArtCard = ({
     showRemoveButton && (
       <button
         className="btn btn-outline-danger mt-2 mb-2"
-        onClick={() => removeFromCart(_id)}
+        onClick={() => removeItem(_id)}
       >
         Remove from Cart
       </button>
@@ -109,14 +103,16 @@ const ArtCard = ({
       <ShowImage art={art} url="arts" />
       <div className="card-body">
         {handleRedirect(redirect)}
-        <p>Description: {description.substring(0, 100)}</p>
+        <p className="lead mt-2">
+          Description: {description.substring(0, 100)}
+        </p>
         <p className="black-10">${price}</p>
         <p className="black-9">{category && category.name}</p>
         <p className="black-8">Added {moment(createdAt).fromNow()}</p>
         {showStock(quantity)}
         <br />
         {showViewButton(showViewArtButton)}
-        <Link to="/">{showAddToCartButton(showCartButton)}</Link>
+        {showAddToCartButton(showCartButton)}
         {showRemoveFromCartButton(showRemoveButton)}
         {showCartUpdateOptions(cartUpdate)}
       </div>
@@ -125,3 +121,4 @@ const ArtCard = ({
 };
 
 export default ArtCard;
+// checked

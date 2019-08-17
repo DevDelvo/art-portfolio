@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import ArtCard from './ArtCard';
 import Checkbox from './Checkbox';
-import Radiobox from './Radiobox';
-import { getArts, getCategories, getFilteredArt } from './coreHelper';
+import RadioBox from './RadioBox';
+import { getCategories, getFilteredArt } from './coreHelper';
 import { prices } from './fixedPrices';
 
 const Shop = () => {
@@ -103,15 +103,13 @@ const Shop = () => {
         <div className="col-4">
           <h4>Filter by Categories</h4>
           <ul>
-            {
-              <Checkbox
-                categories={categories}
-                handleFilters={filters => handleFilters(filters, 'category')}
-              />
-            }
+            <Checkbox
+              categories={categories}
+              handleFilters={filters => handleFilters(filters, 'category')}
+            />
           </ul>
           <h4>Filter by Price Range</h4>
-          <Radiobox
+          <RadioBox
             prices={prices}
             handleFilters={filters => handleFilters(filters, 'price')}
           />
@@ -134,3 +132,5 @@ const Shop = () => {
 };
 
 export default Shop;
+// checked
+// double checked

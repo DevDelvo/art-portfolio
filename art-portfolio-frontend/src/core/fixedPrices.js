@@ -30,3 +30,4 @@ export const prices = [
     array: [50, 99]
   }
 ];
+// checked

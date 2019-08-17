@@ -11,8 +11,7 @@ const isActive = (history, path) => {
   }
 };
 
-const Menu = props => {
-  const { history } = props;
+const Menu = ({ history }) => {
   return (
     <div>
       <ul className="nav nav-tabs bg-primary">
@@ -115,3 +114,4 @@ const Menu = props => {
 };
 
 export default withRouter(Menu);
+// checked
