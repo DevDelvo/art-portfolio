@@ -22,15 +22,22 @@ const Shop = () => {
     loadFilteredArt(skip, limit, myFilters.filters);
   }, []);
 
-  const init = () => {
-    getCategories()
-      .then(data => {
-        setCategories(data.data);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+  const init = async () => {
+    // getCategories()
+    //   .then(data => {
+    //     setCategories(data.data);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let data = await getCategories();
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setCategories(data);
+    }
   };
 
   const handleFilters = (filters, filterBy) => {

@@ -20,11 +20,19 @@ export const getArts = async sortBy => {
   }
 };
 
-export const getCategories = () => {
+export const getCategories = async () => {
+  // try {
+  //   return axios.get(`${API}/categories`);
+  // } catch (err) {
+  //   console.log(err);
+  // }
+  // REFACTOR
   try {
-    return axios.get(`${API}/categories`);
+    let res = await axios.get(`${API}/categories`);
+    const { data } = res;
+    return data;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 

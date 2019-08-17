@@ -18,16 +18,24 @@ const Search = () => {
     loadCategories();
   });
 
-  const loadCategories = () => {
-    getCategories()
-      .then(data => {
-        setState({ ...state, categories: data.data });
-      })
-      .catch(err => {
-        const res = err.response;
-        // setError(res.data.error);
-        console.log(res.data.error);
-      });
+  const loadCategories = async () => {
+    // getCategories()
+    //   .then(data => {
+    //     setState({ ...state, categories: data.data });
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     // setError(res.data.error);
+    //     console.log(res.data.error);
+    //   });
+    // REFACTOR
+    // let data = await getCategories();
+    // console.log(data);
+    // if (data.response) {
+    //   console.log(data.response.data.error);
+    // } else {
+    //   setState({ ...state, categories: data });
+    // }
   };
 
   // const showError = () => (
