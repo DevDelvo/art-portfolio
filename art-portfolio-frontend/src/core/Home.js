@@ -52,9 +52,16 @@ const Home = () => {
   };
 
   useEffect(() => {
-    loadArtByCreation();
-    loadArtBySell();
-    // return () => source.cancel();
+    let cancel = false;
+    async function fetchData() {
+      loadArtByCreation();
+      loadArtBySell();
+      if (!cancel) {
+        console.log('Home data fetched.');
+      }
+    }
+    fetchData();
+    return () => (cancel = true);
   }, []);
 
   // const showLoading = () =>

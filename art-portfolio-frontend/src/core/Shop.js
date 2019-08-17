@@ -152,7 +152,7 @@ const Shop = () => {
             ))}
           </div>
           <hr />
-          {/* {loadMoreButton()} */}
+          {loadMoreButton()}
         </div>
       </div>
     </Layout>

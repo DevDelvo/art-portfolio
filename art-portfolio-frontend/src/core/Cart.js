@@ -9,18 +9,8 @@ const Cart = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    let didCancel = false;
-    const fetchCart = async () => {
-      setItems(getCart());
-      if (!didCancel) {
-        console.log(items);
-      }
-    };
-    fetchCart();
-    return () => {
-      didCancel = true;
-    };
-  }, [items]);
+    setItems(getCart());
+  }, []);
 
   const showItems = items => {
     return (
