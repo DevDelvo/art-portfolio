@@ -9,18 +9,30 @@ export const signup = user => {
   }
 };
 
-export const signin = user => {
+export const signin = async user => {
   try {
-    return axios.post(`${API}/signin`, user);
+    // return axios.post(`${API}/signin`, user);
+    // REFACTOR
+    let res = await axios.post(`${API}/signin`, user);
+    const { data } = res;
+    return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    // REFACTOR
+    return err;
   }
 };
 
 export const authenticate = (data, next) => {
+  // if (typeof window !== 'undefined') {
+  //   // console.log(data.data)
+  //   localStorage.setItem('jwt', JSON.stringify(data.data));
+  //   next();
+  // }
+  // REFACTOR
   if (typeof window !== 'undefined') {
-    // console.log(data.data)
-    localStorage.setItem('jwt', JSON.stringify(data.data));
+    console.log(data);
+    localStorage.setItem('jwt', JSON.stringify(data));
     next();
   }
 };
