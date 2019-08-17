@@ -18,9 +18,16 @@ const Shop = () => {
   const [filteredResults, setFilteredResults] = useState([]);
 
   useEffect(() => {
-    init();
-    loadFilteredArt(skip, limit, myFilters.filters);
-    // return () => source.cancel();
+    let cancel = false;
+    async function fetchData() {
+      init();
+      loadFilteredArt(skip, limit, myFilters.filters);
+      if (!cancel) {
+        console.log('Shop data loaded.');
+      }
+    }
+    fetchData();
+    return () => (cancel = true);
   }, []);
 
   const init = async () => {
