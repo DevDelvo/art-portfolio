@@ -29,6 +29,10 @@ const ArtCard = ({
     });
   };
 
+  const handleRedirect = () => {
+    if (redirect) return <Redirect to="/cart" />;
+  };
+
   const removeFromCart = artId => {
     removeItem(artId);
   };
@@ -40,6 +44,7 @@ const ArtCard = ({
       <span className="badge badge-primary badge-pill">Out of stock</span>
     );
   };
+
   const showViewButton = showViewArtButton =>
     showViewArtButton && (
       <Link to={`/art/${_id}`}>
@@ -52,15 +57,13 @@ const ArtCard = ({
   const showAddToCartButton = showCartButton =>
     // !isInCart(_id) &&
     showCartButton && (
-      <Link to="/">
-        <button
-          className="btn btn-outline-warning mt-2 mb-2"
-          // onClick={addToCart(art)}
-          onClick={() => addToCart(art)}
-        >
-          Add to Cart
-        </button>
-      </Link>
+      <button
+        className="btn btn-outline-warning mt-2 mb-2"
+        // onClick={addToCart(art)}
+        onClick={() => addToCart(art)}
+      >
+        Add to Cart
+      </button>
     );
 
   const showRemoveFromCartButton = showRemoveButton =>
@@ -99,9 +102,6 @@ const ArtCard = ({
       )
     );
   };
-  const handleRedirect = () => {
-    if (redirect) return <Redirect to="/cart" />;
-  };
 
   return (
     <div className="card">
@@ -116,7 +116,7 @@ const ArtCard = ({
         {showStock(quantity)}
         <br />
         {showViewButton(showViewArtButton)}
-        {showAddToCartButton(showCartButton)}
+        <Link to="/">{showAddToCartButton(showCartButton)}</Link>
         {showRemoveFromCartButton(showRemoveButton)}
         {showCartUpdateOptions(cartUpdate)}
       </div>
