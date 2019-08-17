@@ -28,7 +28,15 @@ const Checkout = ({ cart }) => {
   };
 
   useEffect(() => {
-    getToken(userId, token);
+    let cancel = false;
+    async function fetchToken() {
+      getToken(userId, token);
+      if (!cancel) {
+        console.log(state.clientToken);
+      }
+    }
+    fetchToken();
+    return () => (cancel = true);
   }, []);
 
   const getTotal = () => {

@@ -144,10 +144,12 @@ const Shop = () => {
             />
           </ul>
           <h4>Filter by Price Range</h4>
-          <RadioBox
-            prices={prices}
-            handleFilters={filters => handleFilters(filters, 'price')}
-          />
+          <div>
+            <RadioBox
+              prices={prices}
+              handleFilters={filters => handleFilters(filters, 'price')}
+            />
+          </div>
         </div>
         <div className="col-8">
           <h2 className="mb-4">Art</h2>

@@ -10,7 +10,7 @@ const Cart = () => {
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [items]);
 
   const showItems = items => {
     return (
@@ -51,7 +51,7 @@ const Cart = () => {
         <div className="col-6">
           <h2 className="mb-4">Your cart summary</h2>
           <hr />
-          {/* <Checkout cart={items} /> */}
+          <Checkout cart={items} />
         </div>
       </div>
     </Layout>
