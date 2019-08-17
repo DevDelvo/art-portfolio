@@ -56,7 +56,7 @@ const Shop = () => {
       newFilters.filters[filterBy] = priceRange;
     }
     loadFilteredArt(myFilters.filters);
-    setMyFilters(myFilters);
+    setMyFilters(newFilters);
   };
 
   const handlePriceRange = filters => {
