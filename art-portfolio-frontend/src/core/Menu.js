@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { signout, isAuthenticated } from '../auth';
+import { itemTotal } from './cartHelper';
 
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
@@ -10,8 +11,7 @@ const isActive = (history, path) => {
   }
 };
 
-const Menu = props => {
-  const { history } = props;
+const Menu = ({ history }) => {
   return (
     <div>
       <ul className="nav nav-tabs bg-primary">
@@ -28,6 +28,19 @@ const Menu = props => {
             to="/shop"
           >
             Shop
+          </Link>
+        </li>
+
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            style={isActive(history, '/cart')}
+            to="/cart"
+          >
+            Cart{' '}
+            <sup>
+              <small className="cart-badge">{itemTotal()}</small>
+            </sup>
           </Link>
         </li>
 
@@ -101,3 +114,4 @@ const Menu = props => {
 };
 
 export default withRouter(Menu);
+// checked

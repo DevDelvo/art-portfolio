@@ -10,33 +10,49 @@ const Search = () => {
     searched: false,
     results: []
   });
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
 
   const { categories, category, search, searched, results } = state;
 
   useEffect(() => {
-    loadCategories();
+    let cancel = false;
+    async function fetchCategories() {
+      loadCategories();
+      if (!cancel) {
+        console.log('Categories fetched in Search.');
+      }
+    }
+    fetchCategories();
+    return () => (cancel = true);
   }, []);
 
-  const loadCategories = () => {
-    getCategories()
-      .then(data => {
-        setState({ ...state, categories: data.data });
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+  const loadCategories = async () => {
+    // getCategories()
+    //   .then(data => {
+    //     setState({ ...state, categories: data.data });
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     // setError(res.data.error);
+    //     console.log(res.data.error);
+    //   });
+    // REFACTOR
+    let data = await getCategories();
+    if (data.response) {
+      console.log(data.response.data.error);
+    } else {
+      setState({ ...state, categories: data });
+    }
   };
 
-  const showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: error ? '' : 'none' }}
-    >
-      {error}
-    </div>
-  );
+  // const showError = () => (
+  //   <div
+  //     className="alert alert-danger"
+  //     style={{ display: error ? '' : 'none' }}
+  //   >
+  //     {error}
+  //   </div>
+  // );
 
   const handleChange = name => e => {
     setState({ ...state, [name]: e.target.value, searched: false });
@@ -55,7 +71,8 @@ const Search = () => {
         })
         .catch(err => {
           const res = err.response;
-          setError(res.data.error);
+          // setError(res.data.error);
+          console.log(res.data.error);
         });
     }
   };
@@ -117,7 +134,7 @@ const Search = () => {
 
   return (
     <div className="row">
-      {showError()}
+      {/* {showError()} */}
       <div className="container mb-3">{searchForm()}</div>
       <div className="container-fluid mb-3">{searchedArt(results)}</div>
     </div>

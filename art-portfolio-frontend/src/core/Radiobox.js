@@ -1,6 +1,6 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 
-const Checkbox = ({ prices, handleFilters }) => {
+const RadioBox = ({ prices, handleFilters }) => {
   const [price, setPrice] = useState(0);
 
   const handleChange = e => {
@@ -28,4 +28,5 @@ const Checkbox = ({ prices, handleFilters }) => {
   });
 };
 
-export default Checkbox;
+export default RadioBox;
+// checked

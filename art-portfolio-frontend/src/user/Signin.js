@@ -19,21 +19,28 @@ const Signin = () => {
     setState({ ...state, error: false, [name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setState({ ...state, error: false, loading: true });
     const user = { email: email.toLowerCase(), password };
-    signin(user)
-      .then(data => {
-        // setState({...state, redirectToReferrer: true, loading: false})
-        authenticate(data, () => {
-          setState({ ...state, redirectToReferrer: true });
-        });
-      })
-      .catch(err => {
-        const res = err.response;
-        setState({ ...state, error: res.data.error, loading: false });
+    // signin(user)
+    //   .then(data => {
+    //     authenticate(data, () => {
+    //       setState({ ...state, redirectToReferrer: true });
+    //     });
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setState({ ...state, error: res.data.error, loading: false });
+    //   });
+    let res = await signin(user);
+    if (res.response) {
+      setState({ ...state, error: res.response.data.error, loading: false });
+    } else {
+      authenticate(res, () => {
+        setState({ ...state, redirectToReferrer: true });
       });
+    }
   };
 
   const signinForm = () => (

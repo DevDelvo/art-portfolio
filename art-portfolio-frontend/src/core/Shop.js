@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import ArtCard from './ArtCard';
 import Checkbox from './Checkbox';
-import Radiobox from './Radiobox';
-import { getArts, getCategories, getFilteredArt } from './coreHelper';
+import RadioBox from './RadioBox';
+import { source, getCategories, getFilteredArt } from './coreHelper';
 import { prices } from './fixedPrices';
 
 const Shop = () => {
@@ -18,19 +18,34 @@ const Shop = () => {
   const [filteredResults, setFilteredResults] = useState([]);
 
   useEffect(() => {
-    init();
-    loadFilteredArt(skip, limit, myFilters.filters);
+    let cancel = false;
+    async function fetchData() {
+      init();
+      loadFilteredArt(skip, limit, myFilters.filters);
+      if (!cancel) {
+        console.log('Shop data loaded.');
+      }
+    }
+    fetchData();
+    return () => (cancel = true);
   }, []);
 
-  const init = () => {
-    getCategories()
-      .then(data => {
-        setCategories(data.data);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+  const init = async () => {
+    // getCategories()
+    //   .then(data => {
+    //     setCategories(data.data);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let data = await getCategories();
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setCategories(data);
+    }
   };
 
   const handleFilters = (filters, filterBy) => {
@@ -41,7 +56,7 @@ const Shop = () => {
       newFilters.filters[filterBy] = priceRange;
     }
     loadFilteredArt(myFilters.filters);
-    setMyFilters(myFilters);
+    setMyFilters(newFilters);
   };
 
   const handlePriceRange = filters => {
@@ -55,31 +70,51 @@ const Shop = () => {
     return array;
   };
 
-  const loadFilteredArt = newFilters => {
-    getFilteredArt(skip, limit, newFilters)
-      .then(data => {
-        setFilteredResults(data.data.data);
-        setSize(data.data.size);
-        setSkip(0);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+  const loadFilteredArt = async newFilters => {
+    // getFilteredArt(skip, limit, newFilters)
+    //   .then(data => {
+    //     setFilteredResults(data.data.data);
+    //     setSize(data.data.size);
+    //     setSkip(0);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let res = await getFilteredArt(skip, limit, newFilters);
+    const { data } = res;
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setFilteredResults(data.data);
+      setSize(data.size);
+      setSkip(0);
+    }
   };
 
-  const loadMoreArt = () => {
+  const loadMoreArt = async () => {
     let toSkip = skip + limit;
-    getFilteredArt(toSkip, limit, myFilters.filters) // set toSkip to skip over the things we've already seen
-      .then(data => {
-        setFilteredResults([...filteredResults, ...data.data.data]);
-        setSize(data.size);
-        setSkip(toSkip);
-      })
-      .catch(err => {
-        const res = err.response;
-        setError(res.data.error);
-      });
+    // getFilteredArt(toSkip, limit, myFilters.filters) // set toSkip to skip over the things we've already seen
+    //   .then(data => {
+    //     setFilteredResults([...filteredResults, ...data.data.data]);
+    //     setSize(data.size);
+    //     setSkip(toSkip);
+    //   })
+    //   .catch(err => {
+    //     const res = err.response;
+    //     setError(res.data.error);
+    //   });
+    // REFACTOR
+    let res = await getFilteredArt(toSkip, limit, myFilters.filters);
+    const { data } = res;
+    if (data.response) {
+      setError(data.response.data.error);
+    } else {
+      setFilteredResults([...filteredResults, ...data.data]);
+      setSize(data.size);
+      setSkip(toSkip);
+    }
   };
 
   const loadMoreButton = () => {
@@ -103,18 +138,18 @@ const Shop = () => {
         <div className="col-4">
           <h4>Filter by Categories</h4>
           <ul>
-            {
-              <Checkbox
-                categories={categories}
-                handleFilters={filters => handleFilters(filters, 'category')}
-              />
-            }
+            <Checkbox
+              categories={categories}
+              handleFilters={filters => handleFilters(filters, 'category')}
+            />
           </ul>
           <h4>Filter by Price Range</h4>
-          <Radiobox
-            prices={prices}
-            handleFilters={filters => handleFilters(filters, 'price')}
-          />
+          <div>
+            <RadioBox
+              prices={prices}
+              handleFilters={filters => handleFilters(filters, 'price')}
+            />
+          </div>
         </div>
         <div className="col-8">
           <h2 className="mb-4">Art</h2>
@@ -134,3 +169,5 @@ const Shop = () => {
 };
 
 export default Shop;
+// checked
+// double checked

@@ -58,3 +58,4 @@ const Art = props => {
 };
 
 export default Art;
+// checked

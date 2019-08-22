@@ -36,6 +36,8 @@ const AddCategory = () => {
     formData
   } = state;
 
+  const { user, token } = isAuthenticated();
+
   const init = () => {
     getCategories()
       .then(data => {
@@ -48,11 +50,8 @@ const AddCategory = () => {
   };
 
   useEffect(() => {
-    // setState({ ...state, formData: new FormData() });
     init();
   }, []);
-
-  const { user, token } = isAuthenticated();
 
   const handleChange = name => e => {
     const value = name === 'photo' ? e.target.files[0] : e.target.value;

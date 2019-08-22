@@ -1,9 +1,9 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
+const express = require('express');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const expressValidator = require('express-validator');
 require('dotenv').config();
 
@@ -11,21 +11,22 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
-const artRoutes = require('./routes/art')
+const artRoutes = require('./routes/art');
+const braintreeRoutes = require('./routes/braintree');
 
 // app
 const app = express();
 
 // db
 mongoose
-    .connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useCreateIndex: true
-    })
-    .then(() => console.log("DB Connected"));
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  })
+  .then(() => console.log('DB Connected'));
 
 // middleware
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
@@ -36,9 +37,10 @@ app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', artRoutes);
+app.use('/api', braintreeRoutes);
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
