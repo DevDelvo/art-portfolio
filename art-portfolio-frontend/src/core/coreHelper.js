@@ -106,3 +106,16 @@ export const getBraintreeClientToken = (userId, token) => {
   }
 };
 // POSSIBLY
+
+export const processPayment = (userId, token, data) => {
+  try {
+    const authOptions = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    return axios.post(`${API}/braintree/payment/${userId}`, data, authOptions);
+  } catch (err) {
+    console.log(err);
+  }
+};

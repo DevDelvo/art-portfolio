@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
-import { getBraintreeClientToken } from './coreHelper';
+import { getBraintreeClientToken, processPayment } from './coreHelper';
 import DropIn from 'braintree-web-drop-in-react';
 
 const Checkout = ({ cart }) => {
@@ -39,7 +39,7 @@ const Checkout = ({ cart }) => {
     return () => (cancel = true);
   }, []);
 
-  const getTotal = () => {
+  const getTotal = cart => {
     return cart.reduce((acc, curr) => {
       return acc + curr.count * curr.price;
     }, 0);
@@ -51,7 +51,18 @@ const Checkout = ({ cart }) => {
       .requestPaymentMethod()
       .then(data => {
         nonce = data.nonce;
-        console.log('send nonce and total to process:', nonce, getTotal());
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: getTotal(cart)
+        };
+        processPayment(userId, token, paymentData)
+          .then(res => {
+            console.log(res);
+            setState({ ...data, success: res.data.success });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         setState({ ...state, error: err.message });
@@ -68,7 +79,7 @@ const Checkout = ({ cart }) => {
             }}
             onInstance={instance => (state.instance = instance)}
           />
-          <button onClick={handlePayment} className="btn btn-success">
+          <button onClick={handlePayment} className="btn btn-success btn-block">
             Pay
           </button>
         </div>
@@ -87,6 +98,17 @@ const Checkout = ({ cart }) => {
     );
   };
 
+  const showSuccess = success => {
+    return (
+      <div
+        className="alert alert-info"
+        style={{ display: success ? '' : 'none' }}
+      >
+        Thank you! Your payment was successful!
+      </div>
+    );
+  };
+
   const showCheckout = () => {
     return isAuthenticated() ? (
       <div>{showDropIn()}</div>
@@ -98,8 +120,9 @@ const Checkout = ({ cart }) => {
   };
   return (
     <div>
+      {showSuccess(state.success)}
       {showError(state.error)}
-      <h2>Total: {getTotal()}</h2>
+      <h2>Total: {getTotal(cart)}</h2>
       {showCheckout()}
     </div>
   );

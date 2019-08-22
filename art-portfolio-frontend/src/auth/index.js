@@ -31,7 +31,6 @@ export const authenticate = (data, next) => {
   // }
   // REFACTOR
   if (typeof window !== 'undefined') {
-    console.log(data);
     localStorage.setItem('jwt', JSON.stringify(data));
     next();
   }
