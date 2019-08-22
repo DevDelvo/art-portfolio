@@ -38,7 +38,7 @@ const Checkout = ({ cart }) => {
     async function fetchToken() {
       getToken(userId, token);
       if (!cancel) {
-        console.log(state.clientToken);
+        console.log(cancel);
       }
     }
     fetchToken();
@@ -64,18 +64,22 @@ const Checkout = ({ cart }) => {
         };
         processPayment(userId, token, paymentData)
           .then(res => {
-            console.log(res);
+            // console.log(res);
             const order = {
               products: cart,
               transaction_id: res.data.transaction.id,
               amount: res.data.transaction.amount,
               address: state.address
             };
-            createOrder(userId, token, order);
-            setState({ ...data, success: res.data.success });
-            emptyCart(() => {
-              console.log('Emptied cart.');
-              setState({ ...state, loading: false });
+            createOrder(userId, token, order).then(res => {
+              emptyCart(() => {
+                console.log('Emptied cart.');
+                setState({
+                  ...state,
+                  loading: false,
+                  success: true
+                });
+              });
             });
           })
           .catch(err => {

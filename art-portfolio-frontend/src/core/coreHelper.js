@@ -121,13 +121,14 @@ export const processPayment = (userId, token, data) => {
 
 // ORDERS
 export const createOrder = (userId, token, data) => {
+  const order = { order: data };
   try {
     const authOptions = {
       headers: {
         Authorization: `Bearer ${token}`
       }
     };
-    return axios.post(`${API}/order/create/${userId}`, data, authOptions);
+    return axios.post(`${API}/order/create/${userId}`, order, authOptions);
   } catch (err) {
     console.log(err);
   }

@@ -16,6 +16,7 @@ const Shop = () => {
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(0);
   const [filteredResults, setFilteredResults] = useState([]);
+  const [loadingArt, setLoadingArt] = useState(false);
 
   useEffect(() => {
     let cancel = false;
@@ -82,14 +83,17 @@ const Shop = () => {
     //     setError(res.data.error);
     //   });
     // REFACTOR
+    setLoadingArt(true);
     let res = await getFilteredArt(skip, limit, newFilters);
     const { data } = res;
     if (data.response) {
       setError(data.response.data.error);
+      setLoadingArt(false);
     } else {
       setFilteredResults(data.data);
       setSize(data.size);
       setSkip(0);
+      setLoadingArt(false);
     }
   };
 
@@ -128,6 +132,15 @@ const Shop = () => {
     );
   };
 
+  const showLoading = loadingArt => (
+    <div
+      className="alert alert-success"
+      style={{ display: loadingArt ? '' : 'none' }}
+    >
+      <h2>Loading...</h2>
+    </div>
+  );
+
   return (
     <Layout
       title="Shop Page"
@@ -153,6 +166,7 @@ const Shop = () => {
         </div>
         <div className="col-8">
           <h2 className="mb-4">Art</h2>
+          {showLoading(loadingArt)}
           <div className="row">
             {filteredResults.map((art, idx) => (
               <div key={idx} className="col-4 mb-3">
