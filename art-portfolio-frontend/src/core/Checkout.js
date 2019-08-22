@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
-import { getBraintreeClientToken, processPayment } from './coreHelper';
+import {
+  getBraintreeClientToken,
+  processPayment,
+  createOrder
+} from './coreHelper';
 import { emptyCart } from './cartHelper';
 import DropIn from 'braintree-web-drop-in-react';
 
@@ -61,6 +65,13 @@ const Checkout = ({ cart }) => {
         processPayment(userId, token, paymentData)
           .then(res => {
             console.log(res);
+            const order = {
+              products: cart,
+              transaction_id: res.data.transaction.id,
+              amount: res.data.transaction.amount,
+              address: state.address
+            };
+            createOrder(userId, token, order);
             setState({ ...data, success: res.data.success });
             emptyCart(() => {
               console.log('Emptied cart.');
@@ -76,10 +87,23 @@ const Checkout = ({ cart }) => {
       });
   };
 
+  const handleAddress = e => {
+    setState({ ...state, address: e.target.value });
+  };
+
   const showDropIn = () => (
     <div onBlur={() => setState({ ...state, error: '' })}>
       {state.clientToken !== null && cart.length > 0 ? (
         <div>
+          <div className="gorm-group mb-3">
+            <label className="text-muted">Delivery Address:</label>
+            <textarea
+              className="form-control"
+              value={state.address}
+              onChange={handleAddress}
+              placeholder="Type delivery address here..."
+            ></textarea>
+          </div>
           <DropIn
             options={{
               authorization: state.clientToken,
