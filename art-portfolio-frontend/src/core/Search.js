@@ -38,7 +38,6 @@ const Search = () => {
     //   });
     // REFACTOR
     let data = await getCategories();
-    console.log(data);
     if (data.response) {
       console.log(data.response.data.error);
     } else {

@@ -45,6 +45,48 @@ const Checkout = ({ cart }) => {
     }, 0);
   };
 
+  const handlePayment = () => {
+    let nonce;
+    let getNonce = state.instance
+      .requestPaymentMethod()
+      .then(data => {
+        nonce = data.nonce;
+        console.log('send nonce and total to process:', nonce, getTotal());
+      })
+      .catch(err => {
+        setState({ ...state, error: err.message });
+      });
+  };
+
+  const showDropIn = () => (
+    <div onBlur={() => setState({ ...state, error: '' })}>
+      {state.clientToken !== null && cart.length > 0 ? (
+        <div>
+          <DropIn
+            options={{
+              authorization: state.clientToken
+            }}
+            onInstance={instance => (state.instance = instance)}
+          />
+          <button onClick={handlePayment} className="btn btn-success">
+            Pay
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+
+  const showError = error => {
+    return (
+      <div
+        className="alert alert-danger"
+        style={{ display: error ? '' : 'none' }}
+      >
+        {error}
+      </div>
+    );
+  };
+
   const showCheckout = () => {
     return isAuthenticated() ? (
       <div>{showDropIn()}</div>
@@ -54,25 +96,9 @@ const Checkout = ({ cart }) => {
       </Link>
     );
   };
-
-  const showDropIn = () => (
-    <div>
-      {state.clientToken !== null && cart.length > 0 ? (
-        <div>
-          <DropIn
-            options={{
-              authorization: state.clientToken
-            }}
-            onInstance={instance => (state.instance = instance)}
-          />
-          <button className="btn btn-success">Checkout</button>
-        </div>
-      ) : null}
-    </div>
-  );
-
   return (
     <div>
+      {showError(state.error)}
       <h2>Total: {getTotal()}</h2>
       {showCheckout()}
     </div>
