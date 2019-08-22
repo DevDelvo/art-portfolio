@@ -69,7 +69,7 @@ const ArtCard = ({
         onClick={() => {
           removeItem(_id);
           console.log(handleSetUpdate);
-          handleSetUpdate();
+          handleSetUpdate(); // rerenders page when item is removed.
         }}
       >
         Remove from Cart

@@ -9,7 +9,7 @@ import {
 import { emptyCart } from './cartHelper';
 import DropIn from 'braintree-web-drop-in-react';
 
-const Checkout = ({ cart }) => {
+const Checkout = ({ cart, handleSetUpdate }) => {
   const [state, setState] = useState({
     loading: false,
     success: false,
@@ -73,6 +73,7 @@ const Checkout = ({ cart }) => {
             };
             createOrder(userId, token, order).then(res => {
               emptyCart(() => {
+                handleSetUpdate();
                 console.log('Emptied cart.');
                 setState({
                   ...state,
@@ -164,7 +165,7 @@ const Checkout = ({ cart }) => {
       {showLoading(state.loading)}
       {showSuccess(state.success)}
       {showError(state.error)}
-      <h2>Total: {getTotal(cart)}</h2>
+      <h2>Total: ${getTotal(cart)}</h2>
       {showCheckout()}
     </div>
   );
