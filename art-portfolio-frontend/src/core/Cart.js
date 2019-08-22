@@ -7,10 +7,11 @@ import { getCart } from './cartHelper';
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const [update, setUpdate] = useState(true);
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [update]);
 
   const showItems = items => {
     return (
@@ -24,10 +25,16 @@ const Cart = () => {
             showCartButton={false}
             cartUpdate={true}
             showRemoveButton={true}
+            handleSetUpdate={handleSetUpdate}
           />
         ))}
       </div>
     );
+  };
+
+  const handleSetUpdate = () => {
+    setUpdate(!update);
+    console.log(update);
   };
 
   const noItems = () => (

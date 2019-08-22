@@ -9,7 +9,8 @@ const ArtCard = ({
   showViewArtButton = true,
   showCartButton = true,
   cartUpdate = false,
-  showRemoveButton = false
+  showRemoveButton = false,
+  handleSetUpdate
 }) => {
   const [count, setCount] = useState(art.count);
   const [redirect, setRedirect] = useState(false);
@@ -64,7 +65,12 @@ const ArtCard = ({
     showRemoveButton && (
       <button
         className="btn btn-outline-danger mt-2 mb-2"
-        onClick={() => removeItem(_id)}
+        // onClick={() => removeItem(_id)}
+        onClick={() => {
+          removeItem(_id);
+          console.log(handleSetUpdate);
+          handleSetUpdate();
+        }}
       >
         Remove from Cart
       </button>
