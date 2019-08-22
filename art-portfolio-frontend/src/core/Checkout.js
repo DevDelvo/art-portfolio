@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
 import { getBraintreeClientToken, processPayment } from './coreHelper';
+import { emptyCart } from './cartHelper';
 import DropIn from 'braintree-web-drop-in-react';
 
 const Checkout = ({ cart }) => {
   const [state, setState] = useState({
+    loading: false,
     success: false,
     clientToken: null,
     error: '',
@@ -46,6 +48,7 @@ const Checkout = ({ cart }) => {
   };
 
   const handlePayment = () => {
+    setState({ ...state, loading: true });
     let nonce;
     let getNonce = state.instance
       .requestPaymentMethod()
@@ -59,9 +62,13 @@ const Checkout = ({ cart }) => {
           .then(res => {
             console.log(res);
             setState({ ...data, success: res.data.success });
+            emptyCart(() => {
+              console.log('Emptied cart.');
+              setState({ ...state, loading: false });
+            });
           })
           .catch(err => {
-            console.log(err);
+            setState({ ...state, error: err.message, loading: false });
           });
       })
       .catch(err => {
@@ -75,7 +82,11 @@ const Checkout = ({ cart }) => {
         <div>
           <DropIn
             options={{
-              authorization: state.clientToken
+              authorization: state.clientToken,
+              paypal: {
+                // https://developers.braintreepayments.com/guides/paypal/testing-go-live/node#linked-paypal-testing
+                flow: 'vault'
+              }
             }}
             onInstance={instance => (state.instance = instance)}
           />
@@ -86,6 +97,8 @@ const Checkout = ({ cart }) => {
       ) : null}
     </div>
   );
+
+  const showLoading = loading => loading && <h2>Loading...</h2>;
 
   const showError = error => {
     return (
@@ -120,6 +133,7 @@ const Checkout = ({ cart }) => {
   };
   return (
     <div>
+      {showLoading(state.loading)}
       {showSuccess(state.success)}
       {showError(state.error)}
       <h2>Total: {getTotal(cart)}</h2>
@@ -129,4 +143,3 @@ const Checkout = ({ cart }) => {
 };
 
 export default Checkout;
-// checked

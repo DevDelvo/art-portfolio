@@ -142,5 +142,3 @@ const Search = () => {
 };
 
 export default Search;
-// checked
-// double checked.

@@ -69,4 +69,9 @@ export const removeItem = artId => {
   return cart;
 };
 
-// checked
+export const emptyCart = next => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('cart');
+    next();
+  }
+};

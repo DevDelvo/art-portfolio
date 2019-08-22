@@ -105,7 +105,6 @@ export const getBraintreeClientToken = (userId, token) => {
     console.log(err);
   }
 };
-// POSSIBLY
 
 export const processPayment = (userId, token, data) => {
   try {
