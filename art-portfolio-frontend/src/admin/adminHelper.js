@@ -51,3 +51,16 @@ export const getOrders = (userId, token) => {
     console.log(err);
   }
 };
+
+export const getStatusValues = (userId, token) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  try {
+    return axios.get(`${API}/order/status-values/${userId}`, authOptions);
+  } catch (err) {
+    console.log(err);
+  }
+};
