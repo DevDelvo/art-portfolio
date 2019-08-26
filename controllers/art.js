@@ -274,7 +274,6 @@ exports.photo = (req, res, next) => {
 };
 
 exports.decreaseQuantity = (req, res, next) => {
-  // console.log(req.body);
   let bulkOps = req.body.order.products.map(item => {
     return {
       updateOne: {

@@ -38,3 +38,16 @@ export const getCategories = () => {
     console.log(err);
   }
 };
+
+export const getOrders = (userId, token) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  try {
+    return axios.get(`${API}/order/list/${userId}`, authOptions);
+  } catch (err) {
+    console.log(err);
+  }
+};
