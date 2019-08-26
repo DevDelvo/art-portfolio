@@ -19,6 +19,8 @@ const Checkout = ({ cart, handleSetUpdate }) => {
     address: ''
   });
 
+  const { address } = state;
+
   const userId = isAuthenticated() && isAuthenticated().user._id;
   const token = isAuthenticated() && isAuthenticated().token;
 
@@ -69,7 +71,7 @@ const Checkout = ({ cart, handleSetUpdate }) => {
               products: cart,
               transaction_id: res.data.transaction.id,
               amount: res.data.transaction.amount,
-              address: state.address
+              address: address
             };
             createOrder(userId, token, order).then(res => {
               emptyCart(() => {
