@@ -272,3 +272,23 @@ exports.photo = (req, res, next) => {
   }
   next();
 };
+
+exports.decreaseQuantity = (req, res, next) => {
+  // console.log(req.body);
+  let bulkOps = req.body.order.products.map(item => {
+    return {
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $inc: { quantity: -item.count, sold: +item.count } } // decrement with -
+      }
+    };
+  });
+  Art.bulkWrite(bulkOps, {}, (err, data) => {
+    if (err) {
+      return res.status(400).json({
+        error: `Could not update product.`
+      });
+    }
+    next();
+  });
+};
