@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
-import { getOrders, getStatusValues } from './adminHelper';
+import { getOrders, getStatusValues, updateOrderStatus } from './adminHelper';
 import moment from 'moment';
 
 const Orders = () => {
@@ -51,6 +51,7 @@ const Orders = () => {
     try {
       const res = await getStatusValues(user._id, token);
       const { data } = res;
+      // console.log(res);
       setStatusValues(data);
     } catch (err) {
       const res = err.response;
@@ -59,7 +60,6 @@ const Orders = () => {
   };
 
   const showStatus = order => {
-    console.log(statusValues);
     return (
       <div className="form-group">
         <h3 className="mark mb-4">Status: {order.status}</h3>
@@ -81,8 +81,13 @@ const Orders = () => {
     );
   };
 
-  const handleStatusChange = (e, id) => {
-    console.log(e.target.value);
+  const handleStatusChange = async (e, orderId) => {
+    try {
+      await updateOrderStatus(user._id, orderId, token, e.target.value);
+      loadOrders(user, token);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const showInput = (key, value) => {

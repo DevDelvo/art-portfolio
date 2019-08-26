@@ -39,16 +39,19 @@ export const getCategories = () => {
   }
 };
 
-export const getOrders = (userId, token) => {
+export const getOrders = async (userId, token) => {
   const authOptions = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   };
   try {
-    return axios.get(`${API}/order/list/${userId}`, authOptions);
+    // return axios.get(`${API}/order/list/${userId}`, authOptions);
+    let res = await axios.get(`${API}/order/list/${userId}`, authOptions);
+    return res;
   } catch (err) {
     console.log(err);
+    // return err;
   }
 };
 
@@ -60,6 +63,25 @@ export const getStatusValues = (userId, token) => {
   };
   try {
     return axios.get(`${API}/order/status-values/${userId}`, authOptions);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateOrderStatus = (userId, orderId, token, status) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  let data = { status, orderId };
+
+  try {
+    return axios.put(
+      `${API}/order/${orderId}/status/${userId}`,
+      data,
+      authOptions
+    );
   } catch (err) {
     console.log(err);
   }

@@ -3,13 +3,14 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.orderById = (req, res, next, id) => {
   Order.findById(id)
-    .populate('products.product', 'name price')
+    .populate('art.art', 'name price')
     .exec((err, order) => {
       if (err || !order) {
         return res.status(400).json({
           error: errorHandler(err)
         });
       }
+      // console.log(order);
       req.order = order;
       next();
     });
@@ -48,7 +49,8 @@ exports.getStatusValues = (req, res) => {
   res.json(Order.schema.path('status').enumValues);
 };
 
-exports.updateOrderStatus = (req, res, next, id) => {
+exports.updateOrderStatus = (req, res) => {
+  console.log('updateOrderStatus body: ', req.body);
   Order.findOneAndUpdate(
     { _id: req.body.orderId },
     { $set: { status: req.body.status } },

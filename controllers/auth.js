@@ -70,7 +70,7 @@ exports.isAuth = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
-  console.log(req.profile.role);
+  console.log('profile role: ', req.profile.role);
   if (req.profile.role === 0) {
     return res.status(403).json({
       error: 'Admin resource! Access denied'
