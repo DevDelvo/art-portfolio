@@ -7,10 +7,11 @@ import { getCart } from './cartHelper';
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const [update, setUpdate] = useState(true);
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [update]);
 
   const showItems = items => {
     return (
@@ -24,10 +25,16 @@ const Cart = () => {
             showCartButton={false}
             cartUpdate={true}
             showRemoveButton={true}
+            handleSetUpdate={handleSetUpdate}
           />
         ))}
       </div>
     );
+  };
+
+  const handleSetUpdate = () => {
+    setUpdate(!update);
+    console.log(update);
   };
 
   const noItems = () => (
@@ -51,7 +58,7 @@ const Cart = () => {
         <div className="col-6">
           <h2 className="mb-4">Your cart summary</h2>
           <hr />
-          <Checkout cart={items} />
+          <Checkout cart={items} handleSetUpdate={handleSetUpdate} />
         </div>
       </div>
     </Layout>

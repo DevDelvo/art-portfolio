@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
-import { getBraintreeClientToken, processPayment } from './coreHelper';
+import {
+  getBraintreeClientToken,
+  processPayment,
+  createOrder
+} from './coreHelper';
 import { emptyCart } from './cartHelper';
 import DropIn from 'braintree-web-drop-in-react';
 
-const Checkout = ({ cart }) => {
+const Checkout = ({ cart, handleSetUpdate }) => {
   const [state, setState] = useState({
     loading: false,
     success: false,
@@ -14,6 +18,8 @@ const Checkout = ({ cart }) => {
     instance: {},
     address: ''
   });
+
+  const { address } = state;
 
   const userId = isAuthenticated() && isAuthenticated().user._id;
   const token = isAuthenticated() && isAuthenticated().token;
@@ -34,7 +40,7 @@ const Checkout = ({ cart }) => {
     async function fetchToken() {
       getToken(userId, token);
       if (!cancel) {
-        console.log(state.clientToken);
+        console.log(cancel);
       }
     }
     fetchToken();
@@ -60,11 +66,23 @@ const Checkout = ({ cart }) => {
         };
         processPayment(userId, token, paymentData)
           .then(res => {
-            console.log(res);
-            setState({ ...data, success: res.data.success });
-            emptyCart(() => {
-              console.log('Emptied cart.');
-              setState({ ...state, loading: false });
+            // console.log(res);
+            const order = {
+              products: cart,
+              transaction_id: res.data.transaction.id,
+              amount: res.data.transaction.amount,
+              address: address
+            };
+            createOrder(userId, token, order).then(res => {
+              emptyCart(() => {
+                handleSetUpdate();
+                console.log('Emptied cart.');
+                setState({
+                  ...state,
+                  loading: false,
+                  success: true
+                });
+              });
             });
           })
           .catch(err => {
@@ -76,10 +94,23 @@ const Checkout = ({ cart }) => {
       });
   };
 
+  const handleAddress = e => {
+    setState({ ...state, address: e.target.value });
+  };
+
   const showDropIn = () => (
     <div onBlur={() => setState({ ...state, error: '' })}>
       {state.clientToken !== null && cart.length > 0 ? (
         <div>
+          <div className="gorm-group mb-3">
+            <label className="text-muted">Delivery Address:</label>
+            <textarea
+              className="form-control"
+              value={state.address}
+              onChange={handleAddress}
+              placeholder="Type delivery address here..."
+            ></textarea>
+          </div>
           <DropIn
             options={{
               authorization: state.clientToken,
@@ -136,7 +167,7 @@ const Checkout = ({ cart }) => {
       {showLoading(state.loading)}
       {showSuccess(state.success)}
       {showError(state.error)}
-      <h2>Total: {getTotal(cart)}</h2>
+      <h2>Total: ${getTotal(cart)}</h2>
       {showCheckout()}
     </div>
   );
