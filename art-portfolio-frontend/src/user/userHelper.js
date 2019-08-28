@@ -15,6 +15,7 @@ export const getUser = (userId, token) => {
 };
 
 export const updateUser = (userId, token, user) => {
+  console.log(user)
   const authOptions = {
     headers: {
       Authorization: `Bearer ${token}`
