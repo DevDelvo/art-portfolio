@@ -1,6 +1,8 @@
 import { API } from '../config';
 import axios from 'axios';
 
+
+//  CATEGORIES
 export const createCategory = (userId, token, category) => {
   const authOptions = {
     headers: {
@@ -18,19 +20,6 @@ export const createCategory = (userId, token, category) => {
   }
 };
 
-export const createArt = (userId, token, art) => {
-  const authOptions = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
-  try {
-    return axios.post(`${API}/art/create/${userId}`, art, authOptions); //only returning the promise because we handle the promise in our handleSubmit functions in our react components
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 export const getCategories = () => {
   try {
     return axios.get(`${API}/categories`);
@@ -38,6 +27,8 @@ export const getCategories = () => {
     console.log(err);
   }
 };
+
+// ORDERS
 
 export const getOrders = async (userId, token) => {
   const authOptions = {
@@ -86,3 +77,66 @@ export const updateOrderStatus = (userId, orderId, token, status) => {
     console.log(err);
   }
 };
+
+// ART CRUD
+
+export const createArt = (userId, token, art) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  try {
+    return axios.post(`${API}/art/create/${userId}`, art, authOptions); //only returning the promise because we handle the promise in our handleSubmit functions in our react components
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getArts = async () => {
+  try {
+    const res = await axios.get(`${API}/arts?limit=undefined`);
+    const { data } = res;
+    return data;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const getSingleArt = async (artId) => {
+  try {
+    let res = await axios.get(`${API}/art/${artId}`);
+    return res;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const updateArt = async (userId, artId, token) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  try {
+    let res = await axios.put(`${API}/art/${artId}/${userId}`, authOptions);
+    return res;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const deleteArt = async (artId, userId, token) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  try {
+    let res = await axios.delete(`${API}/art/${artId}/${userId}`, authOptions);
+    console.log(res)
+    return res;
+  } catch (err) {
+    console.log(err.response)
+  }
+}

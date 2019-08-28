@@ -5,6 +5,7 @@ const Art = require('../models/art');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.artById = (req, res, next, id) => {
+  console.log('hi there', id)
   Art.findById(id)
     .populate('category')
     .exec((err, art) => {
@@ -123,6 +124,7 @@ exports.update = (req, res) => {
 
 exports.remove = (req, res) => {
   let art = req.art;
+  console.log(art)
   art.remove((err, deletedArt) => {
     if (err) {
       return res.status(400).json({
