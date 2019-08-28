@@ -6,6 +6,7 @@ import { getCategories, createArt } from './adminHelper';
 
 const AddCategory = () => {
   const [state, setState] = useState({
+    file: '',
     name: '',
     description: '',
     price: '',
@@ -22,6 +23,7 @@ const AddCategory = () => {
   });
 
   const {
+    file,
     name,
     description,
     price,
@@ -56,7 +58,15 @@ const AddCategory = () => {
   const handleChange = name => e => {
     const value = name === 'photo' ? e.target.files[0] : e.target.value;
     formData.set(name, value);
-    setState({ ...state, [name]: value });
+    if (name === 'photo') {
+      if (e.target.files[0]) {
+        setState({ ...state, file: URL.createObjectURL(e.target.files[0]) })
+      } else {
+        setState({ ...state })
+      }
+    } else {
+      setState({ ...state, [name]: value })
+    }
   };
 
   const handleSubmit = e => {
@@ -100,6 +110,7 @@ const AddCategory = () => {
             accept="image/*"
             required
           />
+          <img src={file} alt={description} style={{ maxHeight: '200px', maxWidth: '200px' }} />
         </label>
       </div>
       <div className="form-group">
