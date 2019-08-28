@@ -5,7 +5,6 @@ const Art = require('../models/art');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.artById = (req, res, next, id) => {
-  console.log('hi there', id)
   Art.findById(id)
     .populate('category')
     .exec((err, art) => {

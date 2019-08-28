@@ -59,16 +59,16 @@ const Home = () => {
   };
 
   useEffect(() => {
-    let cancel = false;
+    // let cancel = false;
     async function fetchData() {
       loadArtByCreation();
       loadArtBySell();
-      if (!cancel) {
-        console.log('Home data');
-      }
+      // if (!cancel) {
+      //   console.log('Home data');
+      // }
     }
     fetchData();
-    return () => (cancel = true);
+    // return () => (cancel = true);
   }, []);
 
   const showLoadingBySell = loadingBySell => (

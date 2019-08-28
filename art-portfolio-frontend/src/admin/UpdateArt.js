@@ -57,6 +57,7 @@ const UpdateArt = ({ match }) => {
     } = data;
     getCategories()
       .then(categories => {
+
         setState({
           name,
           file: `${API}/arts/photo/${_id}`,
@@ -66,7 +67,7 @@ const UpdateArt = ({ match }) => {
           categories: categories.data,
           shipping,
           quantity,
-          formData: new FormData(),
+          formData: populateForm(data),
           loading: false
         });
       })
@@ -105,11 +106,38 @@ const UpdateArt = ({ match }) => {
     })
   }
 
+  const populateForm = (data) => {
+    let newFormData = new FormData();
+    // const {
+    //   name,
+    //   description,
+    //   price,
+    //   category,
+    //   shipping,
+    //   quantity,
+    // } = data;
+    // newFormData.set('name', name);
+    // newFormData.set('description', description);
+    // newFormData.set('price', price);
+    // newFormData.set('category', category._id);
+    // newFormData.set('shipping', shipping);
+    // newFormData.set('quantity', quantity);
+    for (const name in data) {
+      const value = data[name]
+      // console.log(name, value)
+      if (name === 'category') {
+        newFormData.set(name, value._id);
+      } else {
+        newFormData.set(name, value);
+      }
+    }
+    return newFormData;
+  }
+
   const handleChange = name => e => {
     const value = name === 'photo' ? e.target.files[0] : e.target.value;
     formData.set(name, value);
     if (name === 'photo') {
-      // console.log(e.target.files)
       if (e.target.files[0]) {
         setState({ ...state, file: URL.createObjectURL(e.target.files[0]) })
       } else {
@@ -123,6 +151,9 @@ const UpdateArt = ({ match }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log(state)
+    for (const pair of formData.entries()) {
+      console.log(pair[0], " + ", pair[1])
+    }
     setState({ ...state, error: '', loading: true });
     updateArt(match.params.artId, user._id, token, formData)
       .then(data => {
@@ -268,7 +299,9 @@ const UpdateArt = ({ match }) => {
 
   const redirectUser = () => {
     if (redirectToProfile) {
-      return <Redirect to='/' />
+      if (!error) {
+        return <Redirect to='/' />
+      }
     }
   }
 
