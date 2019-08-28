@@ -13,4 +13,3 @@ const ShowImage = ({ art, url }) => (
 );
 
 export default ShowImage;
-// checked
