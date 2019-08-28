@@ -15,7 +15,6 @@ export const getUser = (userId, token) => {
 };
 
 export const updateUser = (userId, token, user) => {
-  console.log(user)
   const authOptions = {
     headers: {
       Authorization: `Bearer ${token}`
@@ -38,3 +37,16 @@ export const updateUserLocalStorage = (user, next) => {
     }
   }
 };
+
+export const getPurchaseHistory = async (userId, token) => {
+  const authOptions = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  try {
+    return axios.get(`${API}/orders/by/user/${userId}`, authOptions);
+  } catch (err) {
+    console.log(err)
+  }
+}
