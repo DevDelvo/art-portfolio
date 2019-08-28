@@ -85,7 +85,7 @@ exports.update = (req, res) => {
     const { name, description, price, category, quantity, shipping } = fields;
     if (
       !name ||
-      !description ||
+      // !description ||
       !price ||
       !category ||
       !quantity ||

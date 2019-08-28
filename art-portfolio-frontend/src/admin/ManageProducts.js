@@ -4,7 +4,7 @@ import { isAuthenticated } from '../auth';
 import { Link } from 'react-router-dom';
 import { getArts, getSingleArt, updateArt, deleteArt } from './adminHelper';
 
-const ManageProducts = () => {
+const ManageArt = () => {
   const [art, setArt] = useState([]);
 
   const { user, token } = isAuthenticated();
@@ -31,14 +31,14 @@ const ManageProducts = () => {
     }
   }
 
-  const updateProduct = (artId) => {
-    try {
-      updateArt(artId, user._id, token);
-      loadArt();
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // const updateProduct = (artId) => {
+  //   try {
+  //     updateArt(artId, user._id, token);
+  //     loadArt();
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
   const deleteProduct = async (artId) => {
     try {
@@ -65,7 +65,7 @@ const ManageProducts = () => {
                 return (
                   <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
                     <strong>{name}</strong>
-                    <Link to={`/admin/product/update/${_id}`}>
+                    <Link to={`/admin/art/update/${_id}`}>
                       <span className="badge badge-warning badge-pill">Update</span>
                     </Link>
                     <span
@@ -85,4 +85,4 @@ const ManageProducts = () => {
   )
 }
 
-export default ManageProducts;
+export default ManageArt;

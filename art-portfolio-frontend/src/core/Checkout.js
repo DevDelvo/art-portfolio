@@ -39,8 +39,8 @@ const Checkout = ({ cart, handleSetUpdate }) => {
     let cancel = false;
     async function fetchToken() {
       getToken(userId, token);
-      if (!cancel) {
-        console.log(cancel);
+      if (cancel) {
+        console.log('token fetched');
       }
     }
     fetchToken();
@@ -157,10 +157,10 @@ const Checkout = ({ cart, handleSetUpdate }) => {
     return isAuthenticated() ? (
       <div>{showDropIn()}</div>
     ) : (
-      <Link to="/signin">
-        <button className="btn btn-primary">Sign in to Checkout</button>
-      </Link>
-    );
+        <Link to="/signin">
+          <button className="btn btn-primary">Sign in to Checkout</button>
+        </Link>
+      );
   };
   return (
     <div>

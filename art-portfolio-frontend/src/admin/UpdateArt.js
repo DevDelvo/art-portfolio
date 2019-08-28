@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../auth';
 import { Link, Redirect } from 'react-router-dom';
-import { getCategories, createArt } from './adminHelper';
+import { getSingleArt, getCategories, updateArt } from './adminHelper';
+import { API } from '../config';
 
-const AddCategory = () => {
+const UpdateArt = ({ match }) => {
   const [state, setState] = useState({
     name: '',
     description: '',
+    file: '',
     price: '',
     categories: [],
     category: '',
@@ -24,6 +26,7 @@ const AddCategory = () => {
   const {
     name,
     description,
+    file,
     price,
     categories,
     category,
@@ -38,10 +41,34 @@ const AddCategory = () => {
 
   const { user, token } = isAuthenticated();
 
-  const init = () => {
+  useEffect(() => {
+    init(match.params.artId);
+  }, []);
+
+  const initCategories = (data) => {
+    const {
+      _id,
+      name,
+      description,
+      price,
+      category,
+      shipping,
+      quantity,
+    } = data;
     getCategories()
-      .then(data => {
-        setState({ ...state, categories: data.data, formData: new FormData() });
+      .then(categories => {
+        setState({
+          name,
+          file: `${API}/arts/photo/${_id}`,
+          price,
+          description,
+          category,
+          categories: categories.data,
+          shipping,
+          quantity,
+          formData: new FormData(),
+          loading: false
+        });
       })
       .catch(err => {
         const res = err.response;
@@ -49,20 +76,55 @@ const AddCategory = () => {
       });
   };
 
-  useEffect(() => {
-    init();
-  }, []);
+  const init = (artId) => {
+    setState({ ...state, loading: true })
+    getSingleArt(artId).then(data => {
+      // const {
+      //   _id,
+      //   name,
+      //   description,
+      //   price,
+      //   category,
+      //   shipping,
+      //   quantity,
+      // } = data.data;
+
+      // setState({
+      //   ...state,
+      //   name,
+      //   description,
+      //   price,
+      //   shipping,
+      //   quantity,
+      //   formData: new FormData(),
+      // })
+      initCategories(data.data);
+    }).catch(err => {
+      const res = err.response;
+      setState({ ...state, error: res, loading: false });
+    })
+  }
 
   const handleChange = name => e => {
     const value = name === 'photo' ? e.target.files[0] : e.target.value;
     formData.set(name, value);
-    setState({ ...state, [name]: value });
+    if (name === 'photo') {
+      // console.log(e.target.files)
+      if (e.target.files[0]) {
+        setState({ ...state, file: URL.createObjectURL(e.target.files[0]) })
+      } else {
+        setState({ ...state })
+      }
+    } else {
+      setState({ ...state, [name]: value })
+    }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(state)
     setState({ ...state, error: '', loading: true });
-    createArt(user._id, token, formData)
+    updateArt(match.params.artId, user._id, token, formData)
       .then(data => {
         setState({
           ...state, // old state
@@ -83,12 +145,12 @@ const AddCategory = () => {
       })
       .catch(err => {
         const res = err.response;
-        console.log('catch err', res);
+        console.log('catch err', err.response);
         setState({ ...state, error: res.data.error, loading: false });
       });
   };
 
-  const newArtForm = () => (
+  const updateArtForm = () => (
     <form className="mb-3" onSubmit={handleSubmit}>
       <h4>Upload image (Must be smaller than 1MB)</h4>
       <div className="form-group">
@@ -100,6 +162,7 @@ const AddCategory = () => {
             accept="image/*"
             required
           />
+          <img src={file} alt={description} style={{ maxHeight: '200px', maxWidth: '200px' }} />
         </label>
       </div>
       <div className="form-group">
@@ -166,7 +229,7 @@ const AddCategory = () => {
         ></input>
       </div>
 
-      <button className="btn btn-outline-primary">Upload art</button>
+      <button className="btn btn-outline-primary">Update art</button>
     </form>
   );
 
@@ -182,7 +245,7 @@ const AddCategory = () => {
       className="alert alert-info"
       style={{ display: createdArt ? '' : 'none' }}
     >
-      <h2>{`${createdArt}`} was successfully uploaded!</h2>
+      <h2>{`${createdArt}`} was successfully updated!</h2>
     </div>
   );
 
@@ -195,12 +258,6 @@ const AddCategory = () => {
     </div>
   );
 
-  const redirectUser = () => {
-    if (redirectToProfile) {
-      return <Redirect to='/' />
-    }
-  }
-
   const goBack = () => (
     <div className="mt-5">
       <Link to="/admin/dashboard" className="text-warning">
@@ -208,6 +265,12 @@ const AddCategory = () => {
       </Link>
     </div>
   );
+
+  const redirectUser = () => {
+    if (redirectToProfile) {
+      return <Redirect to='/' />
+    }
+  }
 
   return (
     <Layout
@@ -221,13 +284,13 @@ const AddCategory = () => {
           {showLoading()}
           {showSuccess()}
           {showError()}
-          {newArtForm()}
-          {redirectUser()}
+          {updateArtForm()}
           {goBack()}
+          {redirectUser()}
         </div>
       </div>
     </Layout>
   );
 };
 
-export default AddCategory;
+export default UpdateArt;

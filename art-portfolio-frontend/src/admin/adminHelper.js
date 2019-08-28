@@ -112,17 +112,17 @@ export const getSingleArt = async (artId) => {
   }
 }
 
-export const updateArt = async (userId, artId, token) => {
+export const updateArt = async (artId, userId, token, data) => {
   const authOptions = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   };
   try {
-    let res = await axios.put(`${API}/art/${artId}/${userId}`, authOptions);
-    return res;
+    return axios.put(`${API}/art/${artId}/${userId}`, data, authOptions);
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    // return err;
   }
 }
 
