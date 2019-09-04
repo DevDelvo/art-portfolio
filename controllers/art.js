@@ -84,7 +84,7 @@ exports.update = (req, res) => {
     const { name, description, price, category, quantity, shipping } = fields;
     if (
       !name ||
-      !description ||
+      // !description ||
       !price ||
       !category ||
       !quantity ||
@@ -123,6 +123,7 @@ exports.update = (req, res) => {
 
 exports.remove = (req, res) => {
   let art = req.art;
+  console.log(art)
   art.remove((err, deletedArt) => {
     if (err) {
       return res.status(400).json({

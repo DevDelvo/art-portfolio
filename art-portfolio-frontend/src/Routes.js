@@ -14,6 +14,8 @@ import Art from './core/Art';
 import Cart from './core/Cart';
 import Orders from './admin/Orders';
 import Profile from './user/Profile';
+import ManageArt from './admin/ManageProducts';
+import UpdateArt from './admin/UpdateArt'
 
 const Routes = () => {
   return (
@@ -31,6 +33,8 @@ const Routes = () => {
         <AdminRoute path="/create/category" exact component={AddCategory} />
         <AdminRoute path="/create/art" exact component={AddArt} />
         <AdminRoute path="/admin/orders" exact component={Orders} />
+        <AdminRoute path="/admin/art" exact component={ManageArt} />
+        <AdminRoute path="/admin/art/update/:artId" exact component={UpdateArt} />
       </Switch>
     </BrowserRouter>
   );
