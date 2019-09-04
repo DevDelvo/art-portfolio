@@ -7,7 +7,8 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 You will need MongoDB to run this app as its being used for storing user information, categories as well as the art pieces. You can find the link to download it here: https://www.mongodb.com/download-center/community  
 I included some .envDummy files to make it easier for others to set it up on their local machine. Just rename the .envDummy to .env and replace the values with the proper values.  
-To find your MONGO_URI, it is generally the port where your mongoDB is running followed by /`Name of the database` EX: `mongodb://localhost:{PORT NUMBER}/{DATABASE NAME}`  
+To find your MONGO_URI, it is generally the port where your mongoDB is running followed by /`Name of the database`  
+EX: `mongodb://localhost:{PORT NUMBER}/{DATABASE NAME}`  
 To find your Braintree keys, you can use sign up for an account here https://www.braintreepayments.com/sandbox and make an account. After logging in, navigate to API (it should be in the dropdown menu from the gearbox icon in the upper right corner of your window.) From there you can generate the three keys to connect to braintree from the braintree.js controller.
 
 ### Installing
