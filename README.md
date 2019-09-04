@@ -12,9 +12,9 @@ EX: `mongodb://localhost:{PORT NUMBER}/{DATABASE NAME}`
 To find your Braintree keys, you can use sign up for an account here https://www.braintreepayments.com/sandbox and make an account. After logging in, navigate to API (it should be in the dropdown menu from the gearbox icon in the upper right corner of your window.) From there you can generate the three keys to connect to braintree from the braintree.js controller.
 
 ### Installing
-In both the root of this project as well as /art-portfolio-front-end directory, run 'npm install' to install the dependencies.  
-After they are finished installing, run 'npm run start' in the root to run the server backend. The server will be running on whatever port you declared in your .env file.  
-Run 'npm run start' in /art-portfolio-front-end and go to http://localhost:8080/ on your web browser to see your running app!
+In both the root of this project as well as /art-portfolio-front-end directory, run ```npm install``` to install the dependencies.  
+After they are finished installing, run ```npm run start``` in the root to run the server backend. The server will be running on whatever port you declared in your .env file.  
+Run ```npm run start``` in /art-portfolio-front-end and pen [http://localhost:3000](http://localhost:3000) to view it in the browser!
 
 ## Built With
 [React](https://reactjs.org/) - The frontend framework used  
