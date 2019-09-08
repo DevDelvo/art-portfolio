@@ -113,3 +113,8 @@
   font-style: italic;
   background: black;
 }
+
+/* manage products */
+.manage-buttons {
+  margin-left: 10px;
+}

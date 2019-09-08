@@ -58,18 +58,23 @@ const ManageArt = () => {
       <div className="row">
         <div className="col-12">
           <h2 className="text-center">You have {art.length} prints for sale.</h2>
+          <h2>Sort by: TODO</h2>
           <ul className="list-group">
             {
               art.map((item, idx) => {
-                const { _id, category, name, description, createdAt } = item;
+                console.log(item)
+                const { _id, category, quantity, name, description, createdAt } = item;
                 return (
                   <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
                     <strong>{name}</strong>
+                    <div className="spacer"></div>
+                    <span>Category: {category.name}</span>
+                    <span>Stock: {quantity} </span>
                     <Link to={`/admin/art/update/${_id}`}>
-                      <span className="badge badge-warning badge-pill">Update</span>
+                      <span className="badge badge-warning badge-pill manage-buttons">Update</span>
                     </Link>
                     <span
-                      className="badge badge-danger badge-pill"
+                      className="badge badge-danger badge-pill manage-buttons"
                       onClick={() => deleteProduct(_id)}
                     >
                       Delete
