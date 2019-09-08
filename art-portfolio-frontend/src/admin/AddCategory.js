@@ -51,6 +51,7 @@ const AddCategory = () => {
   );
 
   const newCategoryForm = () => (
+    <div onBlur={() => setSuccess(false)}>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="text-muted">Name</label>
@@ -65,6 +66,7 @@ const AddCategory = () => {
       </div>
       <button className="btn btn-outline-primary">Create Category</button>
     </form>
+    </div>
   );
   return (
     <Layout
