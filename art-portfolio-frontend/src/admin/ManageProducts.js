@@ -68,7 +68,7 @@ const ManageArt = () => {
                   <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
                     <strong>{name}</strong>
                     <div className="spacer"></div>
-                    <span>Category: {category.name}</span>
+                    <span style={{'marginLeft': '10px'}}>Category: {category.name}  </span>
                     <span>Stock: {quantity} </span>
                     <Link to={`/admin/art/update/${_id}`}>
                       <span className="badge badge-warning badge-pill manage-buttons">Update</span>
