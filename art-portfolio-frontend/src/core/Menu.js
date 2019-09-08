@@ -14,7 +14,7 @@ const isActive = (history, path) => {
 const Menu = ({ history }) => {
   return (
     <div>
-      <ul className="nav nav-tabs bg-primary">
+      <ul className="nav nav-tabs navbar-bg">
         <li className="nav-item">
           <Link className="nav-link" style={isActive(history, '/')} to="/">
             Home
@@ -70,10 +70,10 @@ const Menu = ({ history }) => {
             </li>
           </Fragment>
         )}
-        
+
         <div className="spacer"></div>
 
-        <ul className="nav nav-tabs bg-primary">
+        <ul className="nav">
       {!isAuthenticated() && (
           <Fragment>
             <li className="nav-item navbar-right">

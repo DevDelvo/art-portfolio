@@ -1,4 +1,7 @@
 /* nav bar */
+.navbar-bg {
+  background-color: rgb(20, 20, 20);
+}
 
 .spacer {
   flex-grow: 1;
@@ -10,7 +13,7 @@
   color: #fff;
   /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
   background: url('./images/jennieBP.jpg');
-  background-size: 100% 450%;
+  background-size: 125% 475%;
   -webkit-animation: Gradient 15s ease infinite;
   -moz-animation: Gradient 15s ease infinite;
   animation: Gradient 15s ease infinite;
@@ -42,13 +45,13 @@
 
 @keyframes Gradient {
   0% {
-    background-position: 30% 100%;
+    background-position: 10% 100%;
   }
   50% {
-    background-position: 30% 50%;
+    background-position: 10% 50%;
   }
   100% {
-    background-position: 30% 0%;
+    background-position: 10% 0%;
   }
 }
 
