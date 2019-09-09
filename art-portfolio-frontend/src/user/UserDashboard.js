@@ -72,14 +72,14 @@ const Dashboard = () => {
                                     <hr />
                                     <h6>Status: {status}</h6>
                                     <h6>Shipping to: {address}</h6>
-                                    <h6>Products:
+                                    <h6>Prints:
                                         {
                                             products.map((product, idx) => {
                                                 const { name, price } = product;
                                                 return (
                                                     <div key={idx}>
-                                                        <h8>Product name: {name}</h8><br />
-                                                        <h8>Product price: {price}</h8><br />
+                                                        <h8>Name: {name}</h8><br />
+                                                        <h8>Price: ${price}</h8><br />
                                                         <ShowImage art={product} url="arts" style={{ maxHeight: '150px', maxWidth: '150px' }} />
                                                     </div>
                                                 )
