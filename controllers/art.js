@@ -245,7 +245,7 @@ exports.listBySearch = (req, res) => {
       }
     }
   }
-
+  console.log('findArgs: ', findArgs)
   Art.find(findArgs)
     .select('-photo')
     .populate('category')

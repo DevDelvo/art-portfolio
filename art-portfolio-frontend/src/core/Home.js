@@ -95,7 +95,7 @@ const Home = () => {
       description="Welcome to Kevin Delvo's Art website!"
       className="container-fluid"
     >
-      {/* <Search /> */}
+      <Search />
       <h2 className="mb-4">Newest</h2>
       {showLoadingBySell(loadingBySell)}
       <div className="row">
