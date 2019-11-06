@@ -7,6 +7,7 @@ const cors = require('cors');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
+const MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
 
 // import routes
@@ -41,7 +42,7 @@ app.use(cors()); // allows our app to handle requests from different origins
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'whos dat gurl?!',
-    store: sessionStorage,
+    store: new MongoStore({ mongooseConnection: mongoose.connection}),
     resave: false,
     saveUninitialized: false
   })
