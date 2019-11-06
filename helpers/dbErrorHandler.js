@@ -4,6 +4,7 @@
  */
 const uniqueMessage = error => {
     let output;
+    console.log('error: ', error);
     try {
         let fieldName = error.message.substring(
             error.message.lastIndexOf(".$") + 2,
@@ -31,6 +32,8 @@ exports.errorHandler = error => {
     if (error.code) {
         switch (error.code) {
             case 11000:
+                message = "An account with that email already exists. Please enter a different email.";
+                break;
             case 11001:
                 message = uniqueMessage(error);
                 break;

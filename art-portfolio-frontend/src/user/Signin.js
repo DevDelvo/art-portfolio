@@ -34,6 +34,7 @@ const Signin = () => {
     //     setState({ ...state, error: res.data.error, loading: false });
     //   });
     let res = await signin(user);
+    console.log(res)
     if (res.response) {
       setState({ ...state, error: res.response.data.error, loading: false });
     } else {

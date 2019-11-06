@@ -23,10 +23,10 @@ router.post('/art/create/:userId', requireSignin, isAuth, isAdmin, create);
 router.delete('/art/:artId/:userId', requireSignin, isAuth, isAdmin, remove);
 
 router.get('/arts', list);
-router.get('/arts/search', listSearch);
+router.get('/arts/search', listSearch); // for art searched with regex 
 router.get('/arts/related/:artId', artRelated);
 router.get('/arts/categories', listCategories);
-router.post('/arts/by/search', listBySearch);
+router.post('/arts/by/search', listBySearch); // for filtered art
 router.get('/arts/photo/:artId', photo);
 
 router.param('userId', userById);

@@ -25,13 +25,13 @@ const Home = () => {
     let res = await getArts('sold');
     // console.log('home res: ', res);
     const { data } = res;
-    if (data.response) {
-      setError(data.response.data.error);
-      setLoadingBySell(false);
-    } else {
+    // if (data.response) {
+    //   setError(data.response.data.error);
+    //   setLoadingBySell(false);
+    // } else {
       setArtBySell(data);
       setLoadingBySell(false);
-    }
+    // }
   };
 
   const loadArtByCreation = async () => {
@@ -49,13 +49,13 @@ const Home = () => {
     setLoadingByCreated(true);
     let res = await getArts('createdAt');
     const { data } = res;
-    if (data.response) {
-      setError(data.response.data.error);
-      setLoadingByCreated(false);
-    } else {
+    // if (data.response) {
+    //   setError(data.response.data.error);
+    //   setLoadingByCreated(false);
+    // } else {
       setArtByCreation(data);
       setLoadingByCreated(false);
-    }
+    // }
   };
 
   useEffect(() => {
@@ -95,11 +95,11 @@ const Home = () => {
       description="Welcome to Kevin Delvo's Art website!"
       className="container-fluid"
     >
-      {/* <Search /> */}
+      <Search />
       <h2 className="mb-4">Newest</h2>
       {showLoadingBySell(loadingBySell)}
       <div className="row">
-        {artByCreation.map((art, idx) => (
+        {artByCreation && artByCreation.map((art, idx) => (
           <div key={idx} className="col-4 mb-3">
             <ArtCard art={art} />
           </div>
@@ -110,7 +110,7 @@ const Home = () => {
       <h2 className="mb-4">Best Sellers</h2>
       {showLoadingByCreate(loadingByCreated)}
       <div className="row">
-        {artBySell.map((art, idx) => (
+        {artBySell && artBySell.map((art, idx) => (
           <div key={idx} className="col-4 mb-3">
             <ArtCard art={art} />
           </div>

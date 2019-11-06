@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import ArtCard from './ArtCard';
 import Checkbox from './Checkbox';
-import RadioBox from './RadioBox';
+import RadioBox from './Radiobox';
 import { source, getCategories, getFilteredArt } from './coreHelper';
 import { prices } from './fixedPrices';
 

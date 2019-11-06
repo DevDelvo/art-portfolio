@@ -14,7 +14,7 @@ const isActive = (history, path) => {
 const Menu = ({ history }) => {
   return (
     <div>
-      <ul className="nav nav-tabs bg-primary">
+      <ul className="nav nav-tabs navbar-bg">
         <li className="nav-item">
           <Link className="nav-link" style={isActive(history, '/')} to="/">
             Home
@@ -71,11 +71,14 @@ const Menu = ({ history }) => {
           </Fragment>
         )}
 
-        {!isAuthenticated() && (
+        <div className="spacer"></div>
+
+        <ul className="nav">
+      {!isAuthenticated() && (
           <Fragment>
-            <li className="nav-item">
+            <li className="nav-item navbar-right">
               <Link
-                className="nav-link"
+                className="nav-link navbar-right"
                 style={isActive(history, '/signup')}
                 to="/signup"
               >
@@ -108,6 +111,7 @@ const Menu = ({ history }) => {
             </span>
           </li>
         )}
+      </ul>
       </ul>
     </div>
   );
